@@ -16,8 +16,9 @@ article {
 
 .box {
     width: 198px;
-    height: 198px;
+    height: 158px;
     border: 1px solid black;
+    padding-top: 40px;
 }
 button {
     margin-top: 100px;

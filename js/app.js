@@ -17,13 +17,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 b1[i] = '';
             }
         });
-        free = 7;
+        free = 8;
     }
 
     button.addEventListener('click', function () {
         restart();
         this.innerHTML = 'Restart';
     });
+
+    function generateNew() {
+        var result;
+
+        for(i=0; i < free; i++) {
+            result = Math.floor(Math.random() * free);
+            if (b1[result] === "") {
+                i = free;
+                b1[result] = 2;
+                boxes[result].innerHTML = 2;
+                free -= 1;
+            }
+        }
+
+    }
 
     function movedown() {
 
@@ -37,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 b1[i] = '';
                 boxes[i + 6].innerHTML = b1[i + 6];
                 boxes[i].innerHTML = '';
-                console.log(i + 'w dół dwa');
+
             }
         }
 
@@ -48,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 b1[i] = '';
                 boxes[i + 3].innerHTML = b1[i + 3];
                 boxes[i].innerHTML = '';
-                console.log(i + 'w dół jeden');
+
             }
         }
     }
@@ -62,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 b1[i] = '';
                 boxes[i - 6].innerHTML = b1[i - 6];
                 boxes[i].innerHTML = '';
-                console.log(i + ' w góre dwa');
+
             }
         }
 
@@ -129,13 +144,18 @@ document.addEventListener("DOMContentLoaded", function () {
     function moveit(key) {
         if (key === 's') {  //down
             movedown();
+            generateNew();
 
         } else if (key === 'w') { //up
             moveup();
+            generateNew();
+
         } else if (key === 'd') { //right
             moveright();
+            generateNew();
         } else if (key === 'a') { //left
             moveleft();
+            generateNew();
         }
     }
 
