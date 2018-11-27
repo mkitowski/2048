@@ -1,28 +1,95 @@
-* {
+@import url('https://fonts.googleapis.com/css?family=Cabin+Sketch');
+@import url('https://fonts.googleapis.com/css?family=Baloo');
+@import url('https://fonts.googleapis.com/css?family=Lato:300');
+
+
+body {
     margin: 0;
     padding: 0;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1.3em;
+    font-family: 'Baloo', cursive;
+    position: relative;
 }
 
+h1 {
+    font-weight: 300;
+    margin: 0;
+}
+h2 {
+    font-size: 0.7em;
+    font-weight: 100;
+    margin: 0 0 30px 0;
+    font-family: 'Lato', sans-serif;
+}
+
+header {
+   background:  #3C3F41;
+    color: aqua;
+    padding-bottom: 10px;
+}
 article {
-    width: 600px;
-    height: 600px;
+    width: 300px;
+    height: 300px;
     margin: 50px auto;
     background: aqua;
     display: flex;
     flex-wrap: wrap;
+    border: 5px solid #3C3F41;
+    border-radius: 15px;
+}
+
+.title_block {
+    font-size: 1em;
+    height = 250px;
+    background: #3C3F41;
+    color: aqua;
+    width: 200px;
+    border-radius: 15px;
+    margin: 30px auto;
 }
 
 .box {
-    width: 198px;
-    height: 158px;
-    border: 1px solid black;
-    padding-top: 40px;
+    font-family: 'Cabin Sketch', cursive;
+    width: 96px;
+    height: 71px;
+    border: 2px solid #3C3F41;
+    padding-top: 25px;
+    font-size: 1.7em;
+    border-radius: 5px;
 }
 button {
-    margin-top: 100px;
+    margin-top: 50px;
     width: 200px;
     height: 75px;
     font-size: 1.2em;
+    color: aqua;
+    background: #3C3F41;
+    border-radius: 15px;
+}
+
+.description {
+    font-weight: 100;
+    width: 300px;
+    margin: 50px auto 0;
+    font-family: 'Lato', sans-serif;
+    text-justify: newspaper;
+}
+
+.bold {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+footer {
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    margin-top: 50px;
+
+}
+footer a {
+    font-family: 'Baloo', cursive;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
 }

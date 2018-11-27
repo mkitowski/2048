@@ -2,8 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var boxes = document.querySelectorAll('.box');
     var button = document.querySelector('button');
+    var scoretext = document.querySelector('.score');
     var b1 = ['','','','','','','','',''];
     var free = 8;
+    var score = 0;
 
 
     function restart() {
@@ -15,15 +17,22 @@ document.addEventListener("DOMContentLoaded", function () {
             if (i !== result) {
                 boxes[i].innerHTML = '';
                 b1[i] = '';
+                changeBkgColor(i);
             }
         });
         free = 8;
+        score = 0;
+        changeBkgColor(result);
     }
 
     button.addEventListener('click', function () {
         restart();
         this.innerHTML = 'Restart';
     });
+
+    function addScore() {
+        scoretext.innerHTML = score;
+    }
 
     function generateNew() {
         var result;
@@ -35,8 +44,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 b1[result] = 2;
                 boxes[result].innerHTML = 2;
                 free -= 1;
+                changeBkgColor(result);
             }
         }
+        addScore();
+
+    }
+
+    function changeBkgColor(i) {
+        if (b1[i] < 10) {
+            boxes[i].style.backgroundColor = '#' + b1[i] + '0'+b1[i]+'F00';
+            boxes[i].style.color = 'aqua';
+        } else if (b1[i] < 99 && b1[i] > 10) {
+            boxes[i].style.backgroundColor = '#' + b1[i] + 'FF' + b1[i];
+            boxes[i].style.color = '#3C3F41';
+        } else if (b1[i] < 999 && b1[i] > 100) {
+            boxes[i].style.backgroundColor = '#' + b1[i]  + b1[i];
+            boxes[i].style.color = 'aqua';
+        } else if (b1[i] === '') {
+            boxes[i].style.backgroundColor = '#00FFFF';
+        }
+
 
     }
 
@@ -51,12 +79,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 boxes[i + 3].innerHTML = b1[i + 3];
                 boxes[i].innerHTML = '';
                 moved = true;
+                changeBkgColor(i+3);
+                changeBkgColor(i);
             } else if (b1[i] === b1[i+3] && b1[i] !== '') {
                 b1[i+3] = Number(b1[i+3]) * 2;
                 b1[i] = '';
                 boxes[i+3].innerHTML = b1[i+3];
                 boxes[i].innerHTML = b1[i];
                 moved =true;
+                score += b1[i+3];
+                changeBkgColor(i+3);
+                changeBkgColor(i);
             }
         }
 
@@ -69,24 +102,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 boxes[i + 6].innerHTML = b1[i + 6];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                changeBkgColor(i+6);
+                changeBkgColor(i);
             } else if (b1[i + 3] === '' && b1[i + 6] === b1[i] && b1[i] !== '') {
                 b1[i+6] = Number(b1[i+6]) * 2;
                 b1[i] = '';
                 boxes[i+6].innerHTML = b1[i+6];
                 boxes[i].innerHTML = b1[i];
+                score += b1[i+6];
                 moved = true;
+                changeBkgColor(i+6);
+                changeBkgColor(i);
             } else if (b1[i+3] === '' && b1[i] !== '') {
                 b1[i+3] = b1[i];
                 b1[i] = '';
                 boxes[i+3].innerHTML = b1[i+3];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                changeBkgColor(i+3);
+                changeBkgColor(i);
             } else if (b1[i+3] === b1[i] && b1[i] !== '') {
                 b1[i+3] = Number(b1[i+3]) * 2;
                 b1[i] = '';
                 boxes[i+3].innerHTML = b1[i+3];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                score += b1[i+3];
+                changeBkgColor(i+3);
+                changeBkgColor(i);
             }
         }
 
@@ -107,12 +150,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 boxes[i-3].innerHTML = b1[i-3];
                 boxes[i].innerHTML = '';
                 moved = true;
+                changeBkgColor(i-3);
+                changeBkgColor(i);
             } else if (b1[i] === b1[i-3] && b1[i] !== '') {
                 b1[i-3] = Number(b1[i-3]) * 2;
                 b1[i] = '';
                 boxes[i-3].innerHTML = b1[i-3];
                 boxes[i].innerHTML = b1[i];
                 moved =true;
+                score += b1[i-3];
+                changeBkgColor(i-3);
+                changeBkgColor(i);
             }
         }
 
@@ -124,24 +172,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 boxes[i - 6].innerHTML = b1[i - 6];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                changeBkgColor(i-6);
+                changeBkgColor(i);
             } else if (b1[i - 3] === '' && b1[i - 6] === b1[i] && b1[i] !== '') {
                 b1[i-6] = Number(b1[i-6]) * 2;
                 b1[i] = '';
                 boxes[i-6].innerHTML = b1[i-6];
                 boxes[i].innerHTML = b1[i];
+                score += b1[i-6];
                 moved = true;
+                changeBkgColor(i-6);
+                changeBkgColor(i);
             } else if (b1[i-3] === '' && b1[i] !== '') {
                 b1[i-3] = b1[i];
                 b1[i] = '';
                 boxes[i-3].innerHTML = b1[i-3];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                changeBkgColor(i-3);
+                changeBkgColor(i);
             } else if (b1[i-3] === b1[i] && b1[i] !== '') {
                 b1[i-3] = Number(b1[i-3]) * 2;
                 b1[i] = '';
                 boxes[i-3].innerHTML = b1[i-3];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                score += b1[i-3];
+                changeBkgColor(i-3);
+                changeBkgColor(i);
             }
         }
 
@@ -161,12 +219,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 boxes[i + 1].innerHTML = b1[i + 1];
                 boxes[i].innerHTML = '';
                 moved = true;
+                changeBkgColor(i+1);
+                changeBkgColor(i);
+
             }  else if (b1[i] === b1[i+1] && b1[i] !== '') {
                 b1[i+1] = Number(b1[i+1]) * 2;
                 b1[i] = '';
                 boxes[i+1].innerHTML = b1[i+1];
                 boxes[i].innerHTML = b1[i];
                 moved =true;
+                score += b1[i+1];
+                changeBkgColor(i+1);
+                changeBkgColor(i);
             }
         }
 
@@ -177,24 +241,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 boxes[i + 2].innerHTML = b1[i + 2];
                 boxes[i].innerHTML = '';
                 moved = true;
+                changeBkgColor(i+2);
+                changeBkgColor(i);
             } else if (b1[i +1] === '' && b1[i +2] === b1[i] && b1[i] !== '') {
                 b1[i+2] = Number(b1[i+2]) * 2;
                 b1[i] = '';
                 boxes[i+2].innerHTML = b1[i+2];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                score += b1[i+2];
+                changeBkgColor(i+2);
+                changeBkgColor(i);
             } else if (b1[i+1] === '' && b1[i] !== '') {
                 b1[i+1] = b1[i];
                 b1[i] = '';
                 boxes[i+1].innerHTML = b1[i+1];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                changeBkgColor(i+1);
+                changeBkgColor(i);
             } else if (b1[i+1] === b1[i] && b1[i] !== '') {
                 b1[i+1] = Number(b1[i+1]) * 2;
                 b1[i] = '';
                 boxes[i+1].innerHTML = b1[i+1];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                score += b1[i+1];
+                changeBkgColor(i+1);
+                changeBkgColor(i);
             }
         }
         if (moved) {
@@ -214,12 +288,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 boxes[i - 1].innerHTML = b1[i - 1];
                 boxes[i].innerHTML = '';
                 moved = true;
+                changeBkgColor(i-1);
+                changeBkgColor(i);
             } else if (b1[i] === b1[i-1] && b1[i] !== '') {
                 b1[i-1] = Number(b1[i-1]) * 2;
                 b1[i] = '';
                 boxes[i-1].innerHTML = b1[i-1];
                 boxes[i].innerHTML = b1[i];
                 moved =true;
+                score += b1[i-1];
+                changeBkgColor(i-1);
+                changeBkgColor(i);
             }
         }
 
@@ -230,24 +309,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 boxes[i - 2].innerHTML = b1[i - 2];
                 boxes[i].innerHTML = '';
                 moved = true;
+                changeBkgColor(i-2);
+                changeBkgColor(i);
             } else if (b1[i -1] === '' && b1[i -2] === b1[i] && b1[i] !== '') {
                 b1[i-2] = Number(b1[i-2]) * 2;
                 b1[i] = '';
                 boxes[i-2].innerHTML = b1[i-2];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                score += b1[i-2];
+                changeBkgColor(i-2);
+                changeBkgColor(i);
             } else if (b1[i-1] === '' && b1[i] !== '') {
                 b1[i-1] = b1[i];
                 b1[i] = '';
                 boxes[i-1].innerHTML = b1[i-1];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                changeBkgColor(i-1);
+                changeBkgColor(i);
             } else if (b1[i-1] === b1[i] && b1[i] !== '') {
                 b1[i-1] = Number(b1[i-1]) * 2;
                 b1[i] = '';
                 boxes[i-1].innerHTML = b1[i-1];
                 boxes[i].innerHTML = b1[i];
                 moved = true;
+                score += b1[i-1];
+                changeBkgColor(i-1);
+                changeBkgColor(i);
             }
         }
         if (moved) {
@@ -266,7 +355,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else if (key === 'd') { //right
             moveright();
-            
+
         } else if (key === 'a') { //left
             moveleft();
 
@@ -275,7 +364,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener('keypress', function (e) {
         moveit(e.key);
-        console.log(e.key);
     });
 
 
