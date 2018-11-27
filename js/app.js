@@ -28,10 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function generateNew() {
         var result;
 
-        for(i=0; i < free; i++) {
-            result = Math.floor(Math.random() * free);
+        for(i=0; i < 9; i++) {
+            result = Math.floor(Math.random() * 9);
             if (b1[result] === "") {
-                i = free;
+                i = 9;
                 b1[result] = 2;
                 boxes[result].innerHTML = 2;
                 free -= 1;
@@ -41,20 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function movedown() {
-
-
-        for (i = 0; i < 3; i++) {
-            console.log(i+' '+b1[i]);
-
-            if (b1[i + 3] === '' && b1[i + 6] === '' && b1[i] !== '') {
-
-                b1[i + 6] = b1[i];
-                b1[i] = '';
-                boxes[i + 6].innerHTML = b1[i + 6];
-                boxes[i].innerHTML = '';
-
-            }
-        }
+        var moved = false;
 
         for (i = 3; i < 6; i++) {
             console.log(i+' '+b1[i]);
@@ -63,23 +50,54 @@ document.addEventListener("DOMContentLoaded", function () {
                 b1[i] = '';
                 boxes[i + 3].innerHTML = b1[i + 3];
                 boxes[i].innerHTML = '';
-
+                moved = true;
+            } else if (b1[i] === b1[i+3] && b1[i] !== '') {
+                b1[i+3] = Number(b1[i+3]) * 2;
+                b1[i] = '';
+                boxes[i+3].innerHTML = b1[i+3];
+                boxes[i].innerHTML = b1[i];
+                moved =true;
             }
         }
+
+        for (i = 0; i < 3; i++) {
+            console.log(i+' '+b1[i]);
+
+            if (b1[i + 3] === '' && b1[i + 6] === '' && b1[i] !== '') {
+                b1[i + 6] = b1[i];
+                b1[i] = '';
+                boxes[i + 6].innerHTML = b1[i + 6];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            } else if (b1[i + 3] === '' && b1[i + 6] === b1[i] && b1[i] !== '') {
+                b1[i+6] = Number(b1[i+6]) * 2;
+                b1[i] = '';
+                boxes[i+6].innerHTML = b1[i+6];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            } else if (b1[i+3] === '' && b1[i] !== '') {
+                b1[i+3] = b1[i];
+                b1[i] = '';
+                boxes[i+3].innerHTML = b1[i+3];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            } else if (b1[i+3] === b1[i] && b1[i] !== '') {
+                b1[i+3] = Number(b1[i+3]) * 2;
+                b1[i] = '';
+                boxes[i+3].innerHTML = b1[i+3];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            }
+        }
+
+        if (moved) {
+            generateNew();
+        }
+
     }
 
     function moveup() {
-        for(i = 6; i < 9; i++) {
-            console.log(i+' '+b1[i]);
-            if (b1[i - 3] === '' && b1[i - 6] === ''  && b1[i] !== '') {
-
-                b1[i - 6] = b1[i];
-                b1[i] = '';
-                boxes[i - 6].innerHTML = b1[i - 6];
-                boxes[i].innerHTML = '';
-
-            }
-        }
+        var moved = false;
 
         for(i = 3; i < 6; i++) {
             console.log(i+' '+b1[i]);
@@ -88,54 +106,152 @@ document.addEventListener("DOMContentLoaded", function () {
                 b1[i] = '';
                 boxes[i-3].innerHTML = b1[i-3];
                 boxes[i].innerHTML = '';
-                console.log(i + ' w góre jeden ');
+                moved = true;
+            } else if (b1[i] === b1[i-3] && b1[i] !== '') {
+                b1[i-3] = Number(b1[i-3]) * 2;
+                b1[i] = '';
+                boxes[i-3].innerHTML = b1[i-3];
+                boxes[i].innerHTML = b1[i];
+                moved =true;
             }
+        }
+
+        for(i = 6; i < 9; i++) {
+            console.log(i+' '+b1[i]);
+            if (b1[i - 3] === '' && b1[i - 6] === ''  && b1[i] !== '') {
+                b1[i - 6] = b1[i];
+                b1[i] = '';
+                boxes[i - 6].innerHTML = b1[i - 6];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            } else if (b1[i - 3] === '' && b1[i - 6] === b1[i] && b1[i] !== '') {
+                b1[i-6] = Number(b1[i-6]) * 2;
+                b1[i] = '';
+                boxes[i-6].innerHTML = b1[i-6];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            } else if (b1[i-3] === '' && b1[i] !== '') {
+                b1[i-3] = b1[i];
+                b1[i] = '';
+                boxes[i-3].innerHTML = b1[i-3];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            } else if (b1[i-3] === b1[i] && b1[i] !== '') {
+                b1[i-3] = Number(b1[i-3]) * 2;
+                b1[i] = '';
+                boxes[i-3].innerHTML = b1[i-3];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            }
+        }
+
+
+        if (moved) {
+            generateNew();
         }
     }
 
     function moveright() {
-        for(i=0; i < 7; i += 3) {
-            if (b1[i + 1] === '' && b1[i + 2] === ''  && b1[i] !== '') {
+        var moved = false;
 
-                b1[i + 2] = b1[i];
-                b1[i] = '';
-                boxes[i + 2].innerHTML = b1[i + 2];
-                boxes[i].innerHTML = '';
-                console.log(i + ' w prawo dwa '+i+2);
-            }
-        }
         for(i=1; i < 8; i += 3) {
             if (b1[i + 1] === '' && b1[i] !== '') {
-
                 b1[i + 1] = b1[i];
                 b1[i] = '';
                 boxes[i + 1].innerHTML = b1[i + 1];
                 boxes[i].innerHTML = '';
-                console.log(i + ' w prawo jeden '+i+1);
+                moved = true;
+            }  else if (b1[i] === b1[i+1] && b1[i] !== '') {
+                b1[i+1] = Number(b1[i+1]) * 2;
+                b1[i] = '';
+                boxes[i+1].innerHTML = b1[i+1];
+                boxes[i].innerHTML = b1[i];
+                moved =true;
             }
         }
+
+        for(i=0; i < 7; i += 3) {
+            if (b1[i + 1] === '' && b1[i + 2] === ''  && b1[i] !== '') {
+                b1[i + 2] = b1[i];
+                b1[i] = '';
+                boxes[i + 2].innerHTML = b1[i + 2];
+                boxes[i].innerHTML = '';
+                moved = true;
+            } else if (b1[i +1] === '' && b1[i +2] === b1[i] && b1[i] !== '') {
+                b1[i+2] = Number(b1[i+2]) * 2;
+                b1[i] = '';
+                boxes[i+2].innerHTML = b1[i+2];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            } else if (b1[i+1] === '' && b1[i] !== '') {
+                b1[i+1] = b1[i];
+                b1[i] = '';
+                boxes[i+1].innerHTML = b1[i+1];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            } else if (b1[i+1] === b1[i] && b1[i] !== '') {
+                b1[i+1] = Number(b1[i+1]) * 2;
+                b1[i] = '';
+                boxes[i+1].innerHTML = b1[i+1];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            }
+        }
+        if (moved) {
+            generateNew();
+        }
+
     }
 
     function moveleft() {
-        for(i=8; i > 1; i -= 3) {
-            if (b1[i - 1] === '' && b1[i - 2] === ''  && b1[i] !== '') {
 
-                b1[i - 2] = b1[i];
-                b1[i] = '';
-                boxes[i - 2].innerHTML = b1[i - 2];
-                boxes[i].innerHTML = '';
-                console.log(i + ' w prawo dwa '+i-2);
-            }
-        }
+        var moved = false;
+
         for(i=7; i > 0; i -= 3) {
             if (b1[i - 1] === '' && b1[i] !== '') {
-
                 b1[i - 1] = b1[i];
                 b1[i] = '';
                 boxes[i - 1].innerHTML = b1[i - 1];
                 boxes[i].innerHTML = '';
-                console.log(i + ' w prawo jeden '+i+1);
+                moved = true;
+            } else if (b1[i] === b1[i-1] && b1[i] !== '') {
+                b1[i-1] = Number(b1[i-1]) * 2;
+                b1[i] = '';
+                boxes[i-1].innerHTML = b1[i-1];
+                boxes[i].innerHTML = b1[i];
+                moved =true;
             }
+        }
+
+        for(i=8; i > 1; i -= 3) {
+            if (b1[i - 1] === '' && b1[i - 2] === ''  && b1[i] !== '') {
+                b1[i - 2] = b1[i];
+                b1[i] = '';
+                boxes[i - 2].innerHTML = b1[i - 2];
+                boxes[i].innerHTML = '';
+                moved = true;
+            } else if (b1[i -1] === '' && b1[i -2] === b1[i] && b1[i] !== '') {
+                b1[i-2] = Number(b1[i-2]) * 2;
+                b1[i] = '';
+                boxes[i-2].innerHTML = b1[i-2];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            } else if (b1[i-1] === '' && b1[i] !== '') {
+                b1[i-1] = b1[i];
+                b1[i] = '';
+                boxes[i-1].innerHTML = b1[i-1];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            } else if (b1[i-1] === b1[i] && b1[i] !== '') {
+                b1[i-1] = Number(b1[i-1]) * 2;
+                b1[i] = '';
+                boxes[i-1].innerHTML = b1[i-1];
+                boxes[i].innerHTML = b1[i];
+                moved = true;
+            }
+        }
+        if (moved) {
+            generateNew();
         }
     }
 
@@ -144,18 +260,16 @@ document.addEventListener("DOMContentLoaded", function () {
     function moveit(key) {
         if (key === 's') {  //down
             movedown();
-            generateNew();
 
         } else if (key === 'w') { //up
             moveup();
-            generateNew();
 
         } else if (key === 'd') { //right
             moveright();
-            generateNew();
+            
         } else if (key === 'a') { //left
             moveleft();
-            generateNew();
+
         }
     }
 
