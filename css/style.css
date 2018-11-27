@@ -66,6 +66,7 @@ button {
     color: aqua;
     background: #3C3F41;
     border-radius: 15px;
+    cursor: pointer;
 }
 
 .description {

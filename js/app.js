@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var button = document.querySelector('button');
     var scoretext = document.querySelector('.score');
     var b1 = ['','','','','','','','',''];
-    var free = 8;
     var score = 0;
 
 
@@ -20,9 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 changeBkgColor(i);
             }
         });
-        free = 8;
         score = 0;
         changeBkgColor(result);
+        addScore();
     }
 
     button.addEventListener('click', function () {
@@ -37,16 +36,16 @@ document.addEventListener("DOMContentLoaded", function () {
     function generateNew() {
         var result;
 
-        for(i=0; i < 9; i++) {
+        for(i=0; i < 18; i++) {
             result = Math.floor(Math.random() * 9);
             if (b1[result] === "") {
-                i = 9;
+                i = 18;
                 b1[result] = 2;
                 boxes[result].innerHTML = 2;
-                free -= 1;
                 changeBkgColor(result);
             }
         }
+
         addScore();
 
     }
