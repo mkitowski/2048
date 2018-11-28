@@ -1,7 +1,7 @@
 # 2048
 
 
-Simple clone of [1024](http://https://en.wikipedia.org/wiki/2048_(video_game) great puzzle game.
+Simple clone of [2048](https://play2048.co/) great puzzle game.
 Created on pure JavaScript and CSS.
 
 You are more than welcome to go and try it:**[2048](http://https://mkitowski.github.io/2048/ "2048")**
