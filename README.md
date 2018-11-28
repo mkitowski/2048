@@ -4,7 +4,7 @@
 Simple clone of [2048](https://play2048.co/) great puzzle game.
 Created on pure JavaScript and CSS.
 
-You are more than welcome to go and try it: ##### **[2048](http://https://mkitowski.github.io/2048/ "2048")**
+You are more than welcome to go and try it: **[2048](http://https://mkitowski.github.io/2048/ "2048")**
 
 ------------
 
