@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function generateNew() {
         var result;
 
-        for(i=0; i < 18; i++) {
+        for(var i=0; i < 18; i++) {
             result = Math.floor(Math.random() * 9);
             if (b1[result] === "") {
                 i = 18;
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function movedown() {
         var moved = false;
 
-        for (i = 3; i < 6; i++) {
+        for (var i = 3; i < 6; i++) {
             console.log(i+' '+b1[i]);
             if (b1[i + 3] === ''  && b1[i] !== '') {
                 b1[i + 3] = b1[i];
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function moveup() {
         var moved = false;
 
-        for(i = 3; i < 6; i++) {
+        for(var i = 3; i < 6; i++) {
             console.log(i+' '+b1[i]);
             if(b1[i-3] === ''  && b1[i] !== ''){
                 b1[i-3] = b1[i];
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function moveright() {
         var moved = false;
 
-        for(i=1; i < 8; i += 3) {
+        for(var i=1; i < 8; i += 3) {
             if (b1[i + 1] === '' && b1[i] !== '') {
                 b1[i + 1] = b1[i];
                 b1[i] = '';
@@ -280,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var moved = false;
 
-        for(i=7; i > 0; i -= 3) {
+        for(var i=7; i > 0; i -= 3) {
             if (b1[i - 1] === '' && b1[i] !== '') {
                 b1[i - 1] = b1[i];
                 b1[i] = '';
