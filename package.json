@@ -1,0 +1,19 @@
+{
+  "name": "2048",
+  "version": "1.0.0",
+  "description": "[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/mkitowski/2048.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/mkitowski/2048/context:javascript)",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkitowski/2048.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mkitowski/2048/issues"
+  },
+  "homepage": "https://github.com/mkitowski/2048#readme"
+}
