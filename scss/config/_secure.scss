@@ -10,3 +10,10 @@
     }
   }
 }
+@media (max-width: $mobilek) and (max-height: 639px) {
+  main {
+    article {
+      margin-top: 0;
+    }
+  }
+}
