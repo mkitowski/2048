@@ -8,69 +8,6 @@
 
 
 
-article {
-    width: 300px;
-    height: 300px;
-    margin: 50px auto;
-    background: aqua;
-    display: flex;
-    flex-wrap: wrap;
-    border: 5px solid #3C3F41;
-    border-radius: 15px;
-}
 
-.title_block {
-    font-size: 1em;
-    height = 250px;
-    background: #3C3F41;
-    color: aqua;
-    width: 200px;
-    border-radius: 15px;
-    margin: 30px auto;
-}
 
-.box {
-    font-family: 'Cabin Sketch', cursive;
-    width: 96px;
-    height: 71px;
-    border: 2px solid #3C3F41;
-    padding-top: 25px;
-    font-size: 1.7em;
-    border-radius: 5px;
-}
-button {
-    margin-top: 50px;
-    width: 200px;
-    height: 75px;
-    font-size: 1.2em;
-    color: aqua;
-    background: #3C3F41;
-    border-radius: 15px;
-    cursor: pointer;
-}
 
-.description {
-    font-weight: 100;
-    width: 300px;
-    margin: 50px auto 0;
-    font-family: 'Lato', sans-serif;
-    text-justify: newspaper;
-}
-
-.bold {
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-footer {
-    font-family: 'Lato', sans-serif;
-    text-align: center;
-    margin-top: 50px;
-
-}
-footer a {
-    font-family: 'Baloo', cursive;
-    color: black;
-    text-decoration: none;
-    font-weight: bold;
-}

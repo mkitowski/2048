@@ -3,7 +3,8 @@ header {
   background:  $bd1;
   color: $col1;
   padding-bottom: 10px;
-
+  border-bottom-right-radius: 50vw 20px;
+  border-bottom-left-radius: 50vw 20px;
 
   .logo {
     text-align: center;
@@ -41,7 +42,7 @@ header {
         position: absolute;
         font-size: 3rem;
         cursor: pointer;
-        top: 10px;
+        top: 5px;
         left: 5px;
         @media (min-width: $mobilek) {
           display: none;
@@ -159,7 +160,7 @@ header {
         position: absolute;
         font-size: 2.5rem;
         cursor: pointer;
-        top: 12px;
+        top: 7px;
         right: 5px;
         @media (min-width: $mobilek) {
           display: none;

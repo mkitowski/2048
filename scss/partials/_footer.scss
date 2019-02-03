@@ -1,0 +1,22 @@
+
+footer {
+  font-family: 'Lato', sans-serif;
+  text-align: center;
+  margin-top: 50px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: $bd1;
+  color: $col1;
+  width: 100%;
+  padding: 1rem 0;
+  border-top-right-radius: 50vw 20px;
+  border-top-left-radius: 50vh 20px;
+  z-index: -1;
+}
+footer a {
+  font-family: 'Baloo', cursive;
+  color: $bg2;
+  text-decoration: none;
+  font-weight: bold;
+}
