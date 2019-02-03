@@ -4,8 +4,12 @@ header {
   color: $col1;
   padding-bottom: 10px;
 
+
   .logo {
     text-align: center;
+    z-index: 2;
+    position: fixed;
+    left: calc(50vw - 57.5px);
 
     h1 {
       padding-top: 1rem;
@@ -22,7 +26,7 @@ header {
 
   nav {
     width: 100%;
-    padding: 0 5rem;
+    padding: 4rem 5rem 0 5rem;
     text-align: center;
 
     @media (min-width: $mobilek) {
@@ -37,7 +41,7 @@ header {
         position: absolute;
         font-size: 3rem;
         cursor: pointer;
-        top: 5px;
+        top: 10px;
         left: 5px;
         @media (min-width: $mobilek) {
           display: none;
@@ -54,7 +58,7 @@ header {
           display: flex;
         }
         li {
-          display: none;
+          font-size: 0;
           border-radius: 3px;
           &:hover {
             animation: mouseon 0.3s ease-in-out forwards;
@@ -66,6 +70,7 @@ header {
           @media (min-width: $mobilek) {
             display: block;
             padding: 0 1rem;
+            font-size: 1.2rem;
             &:hover {
               animation: mouseon 0.3s ease-in-out forwards;
               cursor: pointer;
@@ -83,20 +88,31 @@ header {
         .list {
           @media (max-width: $mobilek) {
             //border: 1px solid $col1;
-            max-height: 200px;
+            max-height: 250px;
             transition: max-height 0.5s ease-out;
             -webkit-box-shadow: 5px 5px 20px 1px rgba(178, 178, 178, 1);
             -moz-box-shadow: 5px 5px 20px 1px rgba(178, 178, 178, 1);
             box-shadow: 5px 5px 20px 1px rgba(178, 178, 178, 1);
+            border-bottom-left-radius: 50vw 25px;
+            border-bottom-right-radius: 50vw 25px;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             background: $bd1;
-            z-index: 2;
+            z-index: 1;
             li {
               display: block;
               padding: 0 1rem;
+              font-size: 1.2rem;
+              transition: font-size 0.5s ease-out;
+
+              &:first-child {
+                margin-top: 5rem;
+              }
+              &:last-child {
+                margin-bottom: 3rem;
+              }
             }
           }
         }
@@ -107,16 +123,25 @@ header {
 
       .users {
         list-style: none;
+        max-height: 0;
         display: flex;
-        z-index: 1;
+        transition: max-height 0.5s ease-in;
+
+        @media (min-width: $mobilek) {
+          max-height: none;
+        }
+
         li {
           //margin: 0 10px;
           cursor: pointer;
           padding: 0 1rem;
-          display: none;
+          font-size: 0;
+
 
           @media (min-width: $mobilek) {
             display: block;
+            font-size: 1.2rem;
+
           }
 
           &:hover {
@@ -134,7 +159,7 @@ header {
         position: absolute;
         font-size: 2.5rem;
         cursor: pointer;
-        top: 5px;
+        top: 12px;
         right: 5px;
         @media (min-width: $mobilek) {
           display: none;
@@ -145,8 +170,8 @@ header {
         .users {
           @media (max-width: $mobilek) {
             //border: 1px solid $col1;
-            max-height: 100px;
-            transition: max-height 0.3s ease-out;
+            max-height: 250px;
+            transition: max-height 0.5s ease-out;
             -webkit-box-shadow: 5px 5px 20px 1px rgba(178, 178, 178, 1);
             -moz-box-shadow: 5px 5px 20px 1px rgba(178, 178, 178, 1);
             box-shadow: 5px 5px 20px 1px rgba(178, 178, 178, 1);
@@ -155,11 +180,22 @@ header {
             left: 0;
             width: 100%;
             background: $bd1;
-            z-index: 2;
+            z-index: 1;
             flex-direction: column;
+            border-bottom-left-radius: 50vw 25px;
+            border-bottom-right-radius: 50vw 25px;
+
+
             li {
-              display: block;
               padding: 0 1rem;
+              transition: font-size 0.5s ease-out;
+              font-size: 1.2rem;
+              &:first-child {
+                margin-top: 5rem;
+              }
+              &:last-child {
+                margin-bottom: 3rem;
+              }
             }
           }
         }
