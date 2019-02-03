@@ -9,11 +9,18 @@
       animation: rotate 2s infinite ease-in-out;
     }
   }
+  .score_block, article, footer{
+    display: none;
+  }
+
 }
 @media (max-width: $mobilek) and (max-height: 639px) {
   main {
     article {
       margin-top: 0;
+    }
+    .score_block {
+      margin: 20px auto;
     }
   }
 }
