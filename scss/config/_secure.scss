@@ -1,0 +1,12 @@
+@media (max-width: $mobilek) and (orientation: landscape) {
+  .message {
+    display: block;
+    i#close {
+      display: none;
+    }
+    i#phone {
+      display: block;
+      animation: rotate 2s infinite ease-in-out;
+    }
+  }
+}

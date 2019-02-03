@@ -9,7 +9,7 @@
   padding-top: 5rem;
   text-align: center;
   display: none;
-  i {
+  i#close {
     position: absolute;
     top: 1rem;
     right: 2rem;
@@ -22,6 +22,18 @@
       transform: rotate(90deg);
       transition: transform 0.5s ease-out;
     }
+  }
+
+  .mess1 {
+    position: relative;
+    top: 10vh;
+    text-align: center;
+
+    #phone {
+      font-size: 5rem;
+      padding-bottom: 1rem;
+    }
+
   }
 
   @media (min-width: $mobilek) {
