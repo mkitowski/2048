@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     var boxes = document.querySelectorAll('.box');
-    var button = document.querySelector('button');
+    var button = document.querySelector('#start');
     var scoretext = document.querySelector('.score');
     var b1 = ['','','','','','','','',''];
     var score = 0;

@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mkitowski/2048/issues"
   },
-  "homepage": "https://github.com/mkitowski/2048#readme"
+  "homepage": "https://github.com/mkitowski/2048#readme",
+  "dependencies": {
+    "browser-sync": "^2.26.3"
+  }
 }

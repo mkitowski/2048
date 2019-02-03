@@ -12,12 +12,26 @@
   0% {
     transform: scale(1);
     color: $col1;
+    background: $bd1;
   }
   50% {
-    transform: scale(1.3);
+    transform: scale(1.2);
   }
   100% {
-    transform: scale(1.1);
-    color: darken($col1, 15%);
+    transform: scale(1.0);
+    color: $col2;
+    background: $bg2;
+  }
+}
+
+@keyframes mouseout {
+  0% {
+    background: $bg2;
+    color: $col2;
+  }
+
+  100% {
+    color: $col1;
+    background: $bd1;
   }
 }
