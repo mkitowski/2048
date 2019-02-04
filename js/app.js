@@ -366,8 +366,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.addEventListener('touchstart', function (e) {
-        e.preventDefault();
-    })
+        e.returnValue = false;
+        console.log('tachnol');
+        return e;
+    },false)
 
 
 });
