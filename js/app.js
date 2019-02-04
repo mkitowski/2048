@@ -365,5 +365,9 @@ document.addEventListener("DOMContentLoaded", function () {
         moveit(e.key);
     });
 
+    document.addEventListener('touchstart', function (e) {
+        e.preventDefault();
+    })
+
 
 });
