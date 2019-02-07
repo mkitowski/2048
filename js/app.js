@@ -365,14 +365,44 @@ document.addEventListener("DOMContentLoaded", function () {
         moveit(e.key);
     });
 
+    var pointx, pointy, pointsx, pointsy;
+
+    window.addEventListener('touchstart', e => {
+
+        var touchobj = e.changedTouches[0];
+
+        pointx = touchobj.pageX;
+        pointy = touchobj.pageY;
+
+
+    }, false);
+
     window.addEventListener('touchmove', ev => {
         if (window) {
             ev.preventDefault();
             ev.stopImmediatePropagation();
         }
 
-
     }, { passive: false });
 
+
+    window.addEventListener('touchend',e => {
+        var touchobj = e.changedTouches[0];
+
+        pointsx = touchobj.pageX;
+        pointsy = touchobj.pageY;
+        var axlex = pointsx - pointx;
+        var axley = pointsy - pointy;
+
+        if (((axlex >= 0) && (axley > 0) && (axley > axlex))||((axlex <= 0) && (axley > 0) && (axley > -axlex))) {
+            movedown();
+        } else if (((axlex >= 0) && (axley < 0) && (-axley > axlex))||((axlex <= 0) && (axley < 0) && (axley < axlex))) {
+            moveup();
+        } else if (((axlex > 0) && (axley >= 0) && (axlex > axley))||((axlex > 0) && (axley <= 0) && (-axley < axlex))) {
+            moveright();
+        } else {moveleft();}
+
+
+    }, false)
 
 });
