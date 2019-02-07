@@ -365,11 +365,14 @@ document.addEventListener("DOMContentLoaded", function () {
         moveit(e.key);
     });
 
-    document.addEventListener('touchstart', function (e) {
-        e.returnValue = false;
-        console.log('tachnol');
-        return e;
-    },false)
+    window.addEventListener('touchmove', ev => {
+        if (window) {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+        }
+
+
+    }, { passive: false });
 
 
 });
