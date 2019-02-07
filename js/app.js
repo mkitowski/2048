@@ -394,13 +394,19 @@ document.addEventListener("DOMContentLoaded", function () {
         var axlex = pointsx - pointx;
         var axley = pointsy - pointy;
 
-        if (((axlex >= 0) && (axley > 0) && (axley > axlex))||((axlex <= 0) && (axley > 0) && (axley > -axlex))) {
-            movedown();
-        } else if (((axlex >= 0) && (axley < 0) && (-axley > axlex))||((axlex <= 0) && (axley < 0) && (axley < axlex))) {
-            moveup();
-        } else if (((axlex > 0) && (axley >= 0) && (axlex > axley))||((axlex > 0) && (axley <= 0) && (-axley < axlex))) {
-            moveright();
-        } else {moveleft();}
+        if (Math.abs(axlex)+Math.abs(axley) > 150) {
+            console.log(axley);
+            console.log(axlex);
+            if (((axlex >= 0) && (axley > 0) && (axley > axlex))||((axlex <= 0) && (axley > 0) && (axley > -axlex))) {
+                movedown();
+            } else if (((axlex >= 0) && (axley < 0) && (-axley > axlex))||((axlex <= 0) && (axley < 0) && (axley < axlex))) {
+                moveup();
+            } else if (((axlex > 0) && (axley >= 0) && (axlex > axley))||((axlex > 0) && (axley <= 0) && (-axley < axlex))) {
+                moveright();
+            } else {moveleft();}
+        }
+
+
 
 
     }, false)
