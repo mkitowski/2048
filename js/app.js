@@ -394,7 +394,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var axlex = pointsx - pointx;
         var axley = pointsy - pointy;
 
-        if (Math.abs(axlex)+Math.abs(axley) > 150) {
+        if (Math.abs(axlex)+Math.abs(axley) > 100) {
             console.log(axley);
             console.log(axlex);
             if (((axlex >= 0) && (axley > 0) && (axley > axlex))||((axlex <= 0) && (axley > 0) && (axley > -axlex))) {
