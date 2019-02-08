@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var moved = false;
 
         for (var i = 3; i < 6; i++) {
-            console.log(i+' '+b1[i]);
+
             if (b1[i + 3] === ''  && b1[i] !== '') {
                 b1[i + 3] = b1[i];
                 b1[i] = '';
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         for (i = 0; i < 3; i++) {
-            console.log(i+' '+b1[i]);
+
 
             if (b1[i + 3] === '' && b1[i + 6] === '' && b1[i] !== '') {
                 b1[i + 6] = b1[i];
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var moved = false;
 
         for(var i = 3; i < 6; i++) {
-            console.log(i+' '+b1[i]);
+
             if(b1[i-3] === ''  && b1[i] !== ''){
                 b1[i-3] = b1[i];
                 b1[i] = '';
@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         for(i = 6; i < 9; i++) {
-            console.log(i+' '+b1[i]);
+
             if (b1[i - 3] === '' && b1[i - 6] === ''  && b1[i] !== '') {
                 b1[i - 6] = b1[i];
                 b1[i] = '';
@@ -346,23 +346,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function moveit(key) {
-        if (key === 's') {  //down
+        if (key === 83 || key === 40) {  //down
             movedown();
 
-        } else if (key === 'w') { //up
+        } else if (key === 87 || key === 38) { //up
             moveup();
 
-        } else if (key === 'd') { //right
+        } else if (key === 68 || key === 39) { //right
             moveright();
 
-        } else if (key === 'a') { //left
+        } else if (key === 65 || key === 37) { //left
             moveleft();
 
         }
     }
 
-    document.addEventListener('keypress', function (e) {
-        moveit(e.key);
+    window.addEventListener('keydown', function (e) {
+
+        moveit(e.keyCode);
     });
 
     var pointx, pointy, pointsx, pointsy;
@@ -395,8 +396,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var axley = pointsy - pointy;
 
         if (Math.abs(axlex)+Math.abs(axley) > 100) {
-            console.log(axley);
-            console.log(axlex);
+
             if (((axlex >= 0) && (axley > 0) && (axley > axlex))||((axlex <= 0) && (axley > 0) && (axley > -axlex))) {
                 movedown();
             } else if (((axlex >= 0) && (axley < 0) && (-axley > axlex))||((axlex <= 0) && (axley < 0) && (axley < axlex))) {
