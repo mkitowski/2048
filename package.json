@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/mkitowski/2048#readme",
   "dependencies": {
-    "browser-sync": "^2.26.3"
+    "browser-sync": "^2.26.3",
+    "webpack": "^4.29.3"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.2.3"
   }
 }

@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", function () {
     var score = 0;
 
 
-    function restart() {
-        var result = 0;
+    const restart = () => {
+        let result = 0;
         result = Math.floor(Math.random() * 9);
         boxes[result].innerHTML = 2;
         b1[result] = 2;
-        boxes.forEach(function (e , i) {
+        boxes.forEach((e , i) => {
             if (i !== result) {
                 boxes[i].innerHTML = '';
                 b1[i] = '';
@@ -24,19 +24,17 @@ document.addEventListener("DOMContentLoaded", function () {
         addScore();
     }
 
-    button.addEventListener('click', function () {
+    button.addEventListener('click', () => {
         restart();
         this.innerHTML = 'Restart';
     });
 
-    function addScore() {
-        scoretext.innerHTML = score;
-    }
+    const addScore = () => { scoretext.innerHTML = score; }
 
-    function generateNew() {
-        var result;
+    const generateNew = () => {
+        let result;
 
-        for(var i=0; i < 18; i++) {
+        for(let i=0; i < 18; i++) {
             result = Math.floor(Math.random() * 9);
             if (b1[result] === "") {
                 i = 18;
@@ -50,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-    function changeBkgColor(i) {
+    const changeBkgColor = i => {
         if (b1[i] < 10) {
             boxes[i].style.backgroundColor = '#' + b1[i] + '0'+b1[i]+'F00';
             boxes[i].style.color = 'aqua';
@@ -63,14 +61,12 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (b1[i] === '') {
             boxes[i].style.backgroundColor = '#00FFFF';
         }
-
-
     }
 
-    function movedown() {
-        var moved = false;
+    const movedown = () => {
+        let moved = false;
 
-        for (var i = 3; i < 6; i++) {
+        for (let i = 3; i < 6; i++) {
 
             if (b1[i + 3] === ''  && b1[i] !== '') {
                 b1[i + 3] = b1[i];
@@ -92,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        for (i = 0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
 
 
             if (b1[i + 3] === '' && b1[i + 6] === '' && b1[i] !== '') {
@@ -138,10 +134,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-    function moveup() {
-        var moved = false;
+    const moveup = () => {
+        let moved = false;
 
-        for(var i = 3; i < 6; i++) {
+        for(let i = 3; i < 6; i++) {
 
             if(b1[i-3] === ''  && b1[i] !== ''){
                 b1[i-3] = b1[i];
@@ -163,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        for(i = 6; i < 9; i++) {
+        for(let i = 6; i < 9; i++) {
 
             if (b1[i - 3] === '' && b1[i - 6] === ''  && b1[i] !== '') {
                 b1[i - 6] = b1[i];
@@ -208,10 +204,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function moveright() {
-        var moved = false;
+    const moveright = () => {
+        let moved = false;
 
-        for(var i=1; i < 8; i += 3) {
+        for(let i=1; i < 8; i += 3) {
             if (b1[i + 1] === '' && b1[i] !== '') {
                 b1[i + 1] = b1[i];
                 b1[i] = '';
@@ -233,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        for(i=0; i < 7; i += 3) {
+        for(let i=0; i < 7; i += 3) {
             if (b1[i + 1] === '' && b1[i + 2] === ''  && b1[i] !== '') {
                 b1[i + 2] = b1[i];
                 b1[i] = '';
@@ -276,11 +272,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-    function moveleft() {
+    const moveleft = () => {
 
-        var moved = false;
+        let moved = false;
 
-        for(var i=7; i > 0; i -= 3) {
+        for(let i=7; i > 0; i -= 3) {
             if (b1[i - 1] === '' && b1[i] !== '') {
                 b1[i - 1] = b1[i];
                 b1[i] = '';
@@ -301,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        for(i=8; i > 1; i -= 3) {
+        for(let i=8; i > 1; i -= 3) {
             if (b1[i - 1] === '' && b1[i - 2] === ''  && b1[i] !== '') {
                 b1[i - 2] = b1[i];
                 b1[i] = '';
@@ -345,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    function moveit(key) {
+    const  moveit = key => {
         if (key === 83 || key === 40) {  //down
             movedown();
 
@@ -361,10 +357,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    window.addEventListener('keydown', function (e) {
-
-        moveit(e.keyCode);
-    });
+    window.addEventListener('keydown', e => moveit(e.keyCode));
 
     var pointx, pointy, pointsx, pointsy;
 
