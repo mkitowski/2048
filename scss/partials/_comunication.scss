@@ -9,6 +9,8 @@
   padding-top: 5rem;
   text-align: center;
   display: none;
+  font-family: 'Lato', sans-serif;
+
   i#close {
     position: absolute;
     top: 1rem;
@@ -23,12 +25,13 @@
       transition: transform 0.5s ease-out;
     }
   }
+  
 
   .mess1 {
     position: relative;
     top: 10vh;
     text-align: center;
-
+    
     #phone {
       font-size: 5rem;
       padding-bottom: 1rem;
@@ -50,3 +53,37 @@
     box-shadow: 22px 26px 41px -8px rgba(0,0,0,0.75);
   }
 }
+.active {
+    display: block;
+
+    .mess1 {
+      display: none;
+    }
+
+    .login {
+      width: 70%;
+      margin: 2rem auto 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+
+      input {
+        line-height: 2rem;
+        width: 100%;
+        border-radius: 5px;
+        padding: 0 5%;
+        margin-bottom: 1rem;
+      }
+
+      button {
+        margin-top: 1rem;
+        line-height: 2rem;
+        background: $bg1;
+        color: $col1;
+      }
+
+    }
+
+
+  }

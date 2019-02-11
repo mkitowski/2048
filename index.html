@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-auth.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
     <script src="js/out.js"></script>
+
 
 </head>
 <body>
@@ -26,8 +31,8 @@
         <div class="User">
             <i class="fas fa-user-circle"></i>
             <ul class="users">
-                <li>Sing-up</li>
-                <li>Login</li>
+                <li id="sign-up">Sign-up</li>
+                <li id="sign-in">Sign-in</li>
             </ul>
         </div>
     </nav>
@@ -64,4 +69,6 @@
     Game based on <a href="https://en.wikipedia.org/wiki/2048_(video_game)" target="_blank">2048</a>
 </footer>
 </body>
+    <script src="js/firebase.js"></script>
+
 </html>
