@@ -23,7 +23,7 @@ Just press start from menu and ...
 ###### On mobiles:
    ... slide your fingers over the screen in direction wher you want to move tiles.
 ###### On desktops
-   ... use arrow keays or WSAD keys to shift tiles and join the same numbers to get higher score
+   ... use arrow keys or WSAD keys to shift tiles and join the same numbers to get higher score
 
 ------------
 
