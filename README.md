@@ -4,7 +4,7 @@
  - Registred users
  - Full compabilty with mobile phones
 
-###### New features soon
+###### New features to be added
  - global score list
  - undo your last move
  - hints
