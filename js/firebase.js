@@ -29,15 +29,15 @@ const close = $('#close');
 const navbar = $('.users');
 let email, password;
 
-close.on('click', () => {
+close.on('click', () => { //ZAMKNIECIE OKNA
     message.removeClass('active');
     $('.login').remove();
 });
 
-signup.click ( () => {
+signup.click ( () => { //OTWARCIE OKNA REJESTRACJI
     message.addClass('active');
     const h2 = $('<h2>').text('Register');
-    const login = $('<div>',{class: 'login'} );
+    const login = $('<form>',{class: 'login'} );
     const label = $('<label>').text('Username:');
     const input = $('<input>', {class: 'name'}).attr('type','text').attr('placeholder','Your name');
     const label1 = $('<label>', {class: 'l-email'}).text('Your email address:');
@@ -47,7 +47,7 @@ signup.click ( () => {
     const label3 = $('<label>').text('Re-type your password:');
     const input3 = $('<input>', {class: 'password2'}).attr('type', 'password').attr('placeholder', 'your new password again');
     const btn = $('<button>',{class: 'register'}).text('Create account');
-    console.log(login);
+   
     login.append(h2)
         .append(label).append(input)
         .append(label1).append(input1)
@@ -57,16 +57,17 @@ signup.click ( () => {
     message.append(login);
 });
 
-message.on('click', '.register', () => {
-
+message.on('click', '.register', e => { //PROCES REJESTRACJI
+    e.preventDefault();
     const email = document.querySelector('.email').value;
     const pass1 = $('.password1').val();
     const pass2 = $('.password2').val();
+    const name = $('.name').val();
     const label1 = $('.l-email');
     const label2 = $('.l-pass');
 
     let acceptable = true;
-    console.log(email);
+   
     if (email.indexOf('@')<0) {
         acceptable = false;
         label1.text('Podaj poprawny email');
@@ -93,24 +94,42 @@ message.on('click', '.register', () => {
     }
 
     if (acceptable) {
-        console.log(acceptable);
-
-        firebase.auth().createUserWithEmailAndPassword(email, pass1).catch(function(error) {
+       
+        let user = null;
+        firebase.auth().createUserWithEmailAndPassword(email, pass1)
+        .then(() => {
+            user = firebase.auth().currentUser;
+            signin.text(name).attr('id', "profile");
+            signup.text('Sign-off').attr('id', 'sign-off');
+            console.log(name);
+            console.log(signin.text());
+        })
+        .then(() => {
+            user.updateProfile({
+                displayName: name
+            });
+            message.removeClass('active');
+            $('.login').remove();
+        })
+        .catch( error => {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             console.log(errorCode);
             console.log(errorMessage);
         });
-        message.removeClass('active');
-        $('.login').remove();
+
+       
+        
+   
+        
     }
 });
 
-signin.click ( () => {
+signin.click ( () => { //OTWARCIE OKNA LOGOWANIA
     message.addClass('active');
     const h2 = $('<h2>').text('Sign in');
-    const login = $('<div>',{class: 'login'} );
+    const login = $('<form>',{class: 'login'} );
     const input = $('<input>', {class: 'name'}).attr('type','text').attr('placeholder','Your name');
     const label1 = $('<label>', {class: 'l-email'}).text('Your email address');
     const input1 = $('<input>', {class: 'email'}).attr('type','email').attr('placeholder','your@email.2048');
@@ -125,12 +144,13 @@ signin.click ( () => {
     message.append(login);
 });
 
-message.on('click', '.log-in', () => {
-
+message.on('click', '.log-in', e => { //PROCES LOGOWANIA
+    e.preventDefault();
     const email = document.querySelector('.email').value;
     const pass = $('.password').val();
 
-    firebase.auth().signInWithEmailAndPassword(email, pass).catch(function(error) {
+    firebase.auth().signInWithEmailAndPassword(email, pass)
+    .catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -146,31 +166,27 @@ message.on('click', '.log-in', () => {
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         // User is signed in.
-        var displayName = user.displayName;
+        var dispName = user.displayName;
         var email = user.email;
         var emailVerified = user.emailVerified;
-        var photoURL = user.photoURL;
-        var isAnonymous = user.isAnonymous;
-        var uid = user.uid;
-        var providerData = user.providerData;
-        // ...
         signup.text('Sign-off').attr('id','sign-off');
-
-        signin.text('Profil').attr('id',"profile");
+        signin.text(dispName).attr('id',"profile");
     } else {
         // User is signed out.
         // ...
-        signup.show();
+        
     }
 });
 
 navbar.on('click','#sign-off', e => {
-    firebase.auth().signOut().then(function() {
+    firebase.auth().signOut().then( () => {
         window.alert('Do zobaczenia!');
-        signup.text('Sign-up').attr('id','sign-up');
-        signin.text('Sign-in').attr('id',"sign-in");
-
-
+        const logout = $('#sign-off');
+        const prof = $('#profile');
+        setTimeout ( () => {
+            logout.text('Sign-up').attr('id', 'sign-up');
+            prof.text('Sign-in').attr('id', "sign-in");
+        }, 300);
     }, function(error) {
         window.alert('Coś poszło nie tak');
     });
