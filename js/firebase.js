@@ -38,6 +38,7 @@ const registration = () =>{
 
     let signup = $('.sign-up');
     let signin = $('.sign-in');
+
     signup.click ( () => { //OTWARCIE OKNA REJESTRACJI
         message.addClass('active');
         const h2 = $('<h2>').text('Register');
@@ -161,11 +162,12 @@ const log = () => {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                window.alert('errorCode + errorMessage');
+                window.alert(errorCode + errorMessage);
 
             }).then(() => {
             message.removeClass('active');
             $('.login').remove();
+
         });
 
     });
@@ -174,26 +176,23 @@ const log = () => {
 
 const signOff = () => {
     const navbar = $('.users');
-    navbar.on('click','.sign-off', e => {
-        firebase.auth().signOut().then( () => {
+    navbar.on('click', '.sign-off', e => {
+        firebase.auth().signOut().then(() => {
             window.alert('Do zobaczenia!');
             const logout = $('.sign-off');
             const prof = $('.profile');
-            setTimeout ( () => {
+            setTimeout(() => {
                 logout.text('Sign-up').addClass('sign-up').removeClass('sign-off');
                 prof.text('Sign-in').addClass('sign-in').removeClass('profile');
             }, 300);
-        }, function(error) {
+        }, function (error) {
             window.alert('Coś poszło nie tak');
         });
     })
 
 }
 
-registration();
-log();
-closeWindow();
-signOff();
+
 
 window.onload = ev => {
     firebase.auth().onAuthStateChanged(function(user) {
@@ -217,6 +216,9 @@ window.onload = ev => {
     });
 };
 
-
+registration();
+log();
+closeWindow();
+signOff();
 
 
