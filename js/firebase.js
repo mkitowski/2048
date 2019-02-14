@@ -20,6 +20,19 @@ docRef.get().then((doc) =>{
   
 });
 
+class Users {
+    constructor(name, email) {
+        this.uname = name,
+        this.uemail = email
+    }
+    get changename() {
+        return this.named();
+    }
+    named(el) {
+        el.text(this.uname);
+        console.log(el);
+    }
+}
 
 
 
@@ -34,11 +47,17 @@ const closeWindow = () => {
     });
 }
 
+const logged = () => {
+    let signup = $('.sign-up');
+    let signin = $('.sign-in');
+    signup.text('Sign-off').removeClass('sign-up').addClass('sign-off');
+    signin.removeClass('sign-in').addClass('profile');
+}
+
 const registration = () =>{
 
     let signup = $('.sign-up');
-    let signin = $('.sign-in');
-
+    
     signup.click ( () => { //OTWARCIE OKNA REJESTRACJI
         message.addClass('active');
         const h2 = $('<h2>').text('Register');
@@ -109,9 +128,9 @@ const registration = () =>{
                 user.updateProfile({
                     displayName: name
                 });
-                signup.text('Sign-off').removeClass('sign-up').addClass('sign-off');
-                signin.text(name).removeClass('sign-in').addClass('profile');
-                console.log(name);
+                logged();
+                let newuser = new Users(name, email);
+                newuser.changename($('.sign-in'));
                 message.removeClass('active');
                 $('.login').remove();
             })
@@ -122,11 +141,6 @@ const registration = () =>{
                     console.log(errorCode);
                     console.log(errorMessage);
                 });
-
-
-
-
-
         }
     }); //registration proccess
 }
