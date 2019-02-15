@@ -1,5 +1,3 @@
-
-
 var config = {
     apiKey: "AIzaSyDYxBVHNFeaTZgR0o09BvoZkQ0Ugy9zuME",
     authDomain: "project-6559579986434785633.firebaseapp.com",
@@ -20,29 +18,25 @@ class Db {
         return docRef;
     }
 
-
-
     exist (name, path) {
-        let present=false;
-        this.connect(path).get()
-        .then(querySnapshot => {
-            console.log(querySnapshot.data().Users);
-            let users = querySnapshot.data().Users;
-            if (users.indexOf(name) > -1) {
-                console.log('yes'); //yes
-                present = true;
 
+        return this.connect(path).get()
+            .then(querySnapshot => {
+                console.log(querySnapshot.data().Users);
+                let users = querySnapshot.data().Users;
+                if (users.indexOf(name) > -1) {
+                    userexists = true;
+                    return userexists;
 
-            } else {
-                console.log('no');
-                present = false;
+                } else {
+                    console.log(users.indexOf(name));
+                    return false;
+                }
+            })
+            .catch(e => {
+                console.log(e);
+            })
 
-            }
-        })
-        .catch(e => {
-            console.log(e);
-        })
-        return present;
     }
 }
 
@@ -52,7 +46,7 @@ class SignIn {
         this.email = email,
         this.pass = pass
     }
-    verifyName (el) {
+    verifyName (el, databaseulr) {
         let message;
         let ready= true;
         // let db = firebase.firestore();
@@ -71,13 +65,17 @@ class SignIn {
                     message += 'You need at least '+(5 - el.value.length)+' signs';
                     ready =false;
                 }
-                // check database
+                if (database.exists(el.value, databaseurl).than( e => e)) {
+                    message += 'User name already exist';
+                    ready = false
+                }
             }, 500);
-            return {
-                mess: message,
-                verified: ready
-            }
-        })
+
+        });
+        return {
+            mess: message,
+            confirmed: ready
+        }
     }
 }
 
@@ -88,8 +86,11 @@ let sigin = new SignIn();
 let databaseurl = '2048/database';
 let database = new Db();
 
+
 let a = database.exist('kytek', databaseurl);
-console.log(a);
+
+a.then(e => console.log(e) );
+
 
 
 //HTML elements
