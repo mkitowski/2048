@@ -8,6 +8,8 @@ var config = {
 };
 firebase.initializeApp(config);
 
+
+
 //classes
 
 class Db {
@@ -19,7 +21,7 @@ class Db {
     }
 
     exist (name, path) {
-
+        let userexists;
         return this.connect(path).get()
             .then(querySnapshot => {
                 console.log(querySnapshot.data().Users);
@@ -40,13 +42,13 @@ class Db {
     }
 }
 
-class SignIn {
+class SignUp {
     constructor(name, email, pass) {
         this.name = name,
         this.email = email,
         this.pass = pass
     }
-    verifyName (el, databaseulr) {
+    verifyName (el, databaseulr, fn) {
         let message;
         let ready= true;
         // let db = firebase.firestore();
@@ -65,24 +67,60 @@ class SignIn {
                     message += 'You need at least '+(5 - el.value.length)+' signs';
                     ready =false;
                 }
-                if (database.exists(el.value, databaseurl).than( e => e)) {
+                if (database.exist(el.value, databaseurl).then( e => e)) {
                     message += 'User name already exist';
                     ready = false
                 }
             }, 500);
 
         });
-        return {
-            mess: message,
-            confirmed: ready
-        }
+        return fn(message, ready);
+    }
+
+    opendialog () {
+        let verified = true;
+        const dialogWindow = document.querySelector('.message');
+        dialogWindow.classList.add('active');
+        const form = document.createElement('form');
+        const h2 = document.createElement('h2');
+        h2.innerText = 'Sign Up';
+        form.appendChild(h2);
+
+        const label1 = createLabel('Your User Name');
+        form.appendChild(label1);
+
+        const input1 = createInput('text','User name','userName');
+        form.appendChild(input1);
+
+        const span1 = document.createElement('span');
+
+        dialogWindow.appendChild(form);
+        register.verifyName(input1, databaseurl, (message, ready) => {
+            span1.innerText = message;
+            verified = ready;
+            console.log('hejo '+ verified);
+        });
+
     }
 }
 
+let createLabel = (text) => {
+    const result = document.createElement('label');
+    result.innerText = text;
+    result.classList.add('label');
+    return result;
+}
+
+let createInput = (type, placeholder, id) => {
+    const result = document.createElement('input');
+    result.setAttribute('type', type);
+    result.setAttribute('placeholder', placeholder);
+    result.setAttribute('id', id);
+    return result;
+}
 
 
-
-let sigin = new SignIn();
+let register = new SignUp();
 let databaseurl = '2048/database';
 let database = new Db();
 
@@ -99,6 +137,8 @@ const signup = document.querySelector('.sign-up');
 //events
 signup.onclick = e => {
     console.log('klikles');
+    register.opendialog();
+
 }
 
 
