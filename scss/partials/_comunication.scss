@@ -25,13 +25,13 @@
       transition: transform 0.5s ease-out;
     }
   }
-  
+
 
   .mess1 {
     position: relative;
     top: 10vh;
     text-align: center;
-    
+
     #phone {
       font-size: 5rem;
       padding-bottom: 1rem;
@@ -54,37 +54,58 @@
   }
 }
 .active {
-    display: block;
-    font-weight: 200;
-    
-    .mess1 {
-      display: none;
+  display: flex;
+  font-weight: 200;
+  justify-content: center;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 80%;
+    .label {
+      width: 100%;
+    }
+    span {
+      margin-left: 1rem;
+    }
+    input {
+      width: 60%;
     }
 
-    .login {
-      width: 70%;
-      margin: 2rem auto 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      text-align: left;
+    .fa-spinner {
+      animation: fullrotate .8s infinite reverse linear;
+    }
+  }
 
-      input {
-        line-height: 2rem;
-        width: 100%;
-        border-radius: 5px;
-        padding: 0 5%;
-        margin-bottom: 1rem;
-      }
+  .mess1 {
+    display: none;
+  }
 
-      button {
-        margin-top: 1rem;
-        line-height: 2rem;
-        background: $bg1;
-        color: $col1;
-      }
+  .login {
+    width: 70%;
+    margin: 2rem auto 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
 
+    input {
+      line-height: 2rem;
+      width: 100%;
+      border-radius: 5px;
+      padding: 0 5%;
+      margin-bottom: 1rem;
     }
 
+    button {
+      margin-top: 1rem;
+      line-height: 2rem;
+      background: $bd1;
+      color: $col1;
+    }
 
   }
+
+
+}

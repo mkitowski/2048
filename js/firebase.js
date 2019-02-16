@@ -10,6 +10,7 @@ firebase.initializeApp(config);
 
 
 
+
 //classes
 
 class Db {
@@ -20,7 +21,7 @@ class Db {
         return docRef;
     }
 
-    exist (name, path) {
+    existName (name, path) {
         let userexists;
         return this.connect(path).get()
             .then(querySnapshot => {
@@ -40,6 +41,49 @@ class Db {
             })
 
     }
+    existEmail (mail) {
+    }
+}
+console.log( firebase.Auth());
+
+class Verify {
+    constructor(el, messageEl) {
+        this.element = el,
+        this.messageEl = messageEl,
+        this.verified = false;
+    }
+
+    verifyName () {
+        this.element.addEventListener('keyup', () => {
+            this.messageEl.innerHTML = '<i class="fas fa-spinner"></i>';
+            let exists;
+            database.existName(this.element.value, databaseurl).then( e => exists = e);
+            setTimeout(() => {
+                if (this.element.value.length < 5) {
+                    this.messageEl.innerText = `You need at least ${5 - this.element.value.length} signs`;
+                    this.verified = false;
+                    console.log(this.messageEl);
+                } else if (exists) {
+                    console.log(exists);
+                    this.messageEl.innerText = ' User name already exist';
+                    this.verified = false;
+                    console.log(this.messageEl);
+
+                } else {
+                    this.verified = true;
+                    this.messageEl.innerHTML = '<i class="fas fa-check"></i>'
+                }
+            }, 1000);
+        })
+    }
+
+    verifyEmail () {
+
+        this.element.addEventListener('keyup', () => {
+            this.messageEl.innerHTML = '<i class="fas fa-spinner"></i>';
+
+        })
+    }
 }
 
 class SignUp {
@@ -47,34 +91,6 @@ class SignUp {
         this.name = name,
         this.email = email,
         this.pass = pass
-    }
-    verifyName (el, databaseulr, fn) {
-        let message;
-        let ready= true;
-        // let db = firebase.firestore();
-        // const docRef = db.doc("2048/database");
-
-        // docRef.get().then((doc) =>{
-
-        // let users = doc.data().Users;
-        // for (let i in users) {
-        //      console.log(users[i].Name);
-        // }
-        el.addEventListener('keyup',() =>{
-            message = 'Checking...';
-            setTimeout(() => {
-                if (el.value.length < 5) {
-                    message += 'You need at least '+(5 - el.value.length)+' signs';
-                    ready =false;
-                }
-                if (database.exist(el.value, databaseurl).then( e => e)) {
-                    message += 'User name already exist';
-                    ready = false
-                }
-            }, 500);
-
-        });
-        return fn(message, ready);
     }
 
     opendialog () {
@@ -86,28 +102,55 @@ class SignUp {
         h2.innerText = 'Sign Up';
         form.appendChild(h2);
 
+        //USER NAME
         const label1 = createLabel('Your User Name');
         form.appendChild(label1);
 
+        const div1 = document.createElement('div');
         const input1 = createInput('text','User name','userName');
-        form.appendChild(input1);
+        div1.appendChild(input1);
 
-        const span1 = document.createElement('span');
+        const span1 = createSpan('span1');
+        div1.appendChild(span1);
+        form.appendChild(div1);
+
+        //EMAIL
+        const label2 = createLabel('Your E-mail address');
+        form.appendChild(label2);
+
+        const div2 = document.createElement('div');
+        const input2 = createInput('email','your@eamil.2048', 'email');
+        div2.appendChild(input2);
+
+        const span2 = createSpan('span2');
+        div2.appendChild(span2);
+        form.appendChild(div2);
+
 
         dialogWindow.appendChild(form);
-        register.verifyName(input1, databaseurl, (message, ready) => {
-            span1.innerText = message;
-            verified = ready;
-            console.log('hejo '+ verified);
-        });
 
+        let name = new Verify(input1,span1);
+        let mail = new Verify(input2, span2)
+        name.verifyName();
+        mail.verifyEmail();
     }
 }
+
+//definitions
+
+let register = new SignUp();
+let databaseurl = '2048/database';
+let database = new Db();
 
 let createLabel = (text) => {
     const result = document.createElement('label');
     result.innerText = text;
     result.classList.add('label');
+    return result;
+}
+let createSpan = (clas) => {
+    const result = document.createElement('span');
+    result.classList.add(clas);
     return result;
 }
 
@@ -119,16 +162,13 @@ let createInput = (type, placeholder, id) => {
     return result;
 }
 
-
-let register = new SignUp();
-let databaseurl = '2048/database';
-let database = new Db();
-
-
-let a = database.exist('kytek', databaseurl);
-
-a.then(e => console.log(e) );
-
+//
+//
+//
+// let a = database.exist('kytek', databaseurl);
+//
+// a.then(e => console.log(e) );
+//
 
 
 //HTML elements
