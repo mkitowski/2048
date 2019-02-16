@@ -25,14 +25,14 @@ class Db {
         let userexists;
         return this.connect(path).get()
             .then(querySnapshot => {
-                console.log(querySnapshot.data().Users);
+
                 let users = querySnapshot.data().Users;
                 if (users.indexOf(name) > -1) {
                     userexists = true;
                     return userexists;
 
                 } else {
-                    console.log(users.indexOf(name));
+
                     return false;
                 }
             })
@@ -44,16 +44,17 @@ class Db {
     existEmail (mail) {
     }
 }
-console.log( firebase.Auth());
+
 
 class Verify {
     constructor(el, messageEl) {
         this.element = el,
-        this.messageEl = messageEl,
+        this.messageEl = messageEl
         this.verified = false;
     }
 
     verifyName () {
+        this.verified = false;
         this.element.addEventListener('keyup', () => {
             this.messageEl.innerHTML = '<i class="fas fa-spinner"></i>';
             let exists;
@@ -62,26 +63,55 @@ class Verify {
                 if (this.element.value.length < 5) {
                     this.messageEl.innerText = `You need at least ${5 - this.element.value.length} signs`;
                     this.verified = false;
-                    console.log(this.messageEl);
+
                 } else if (exists) {
                     console.log(exists);
                     this.messageEl.innerText = ' User name already exist';
                     this.verified = false;
-                    console.log(this.messageEl);
 
                 } else {
                     this.verified = true;
-                    this.messageEl.innerHTML = '<i class="fas fa-check"></i>'
+                    this.messageEl.innerHTML = '<i class="fas fa-check"></i>';
                 }
             }, 1000);
         })
     }
 
     verifyEmail () {
-
+        this.verified = false;
         this.element.addEventListener('keyup', () => {
             this.messageEl.innerHTML = '<i class="fas fa-spinner"></i>';
+            let propsed;
+            setTimeout( () => {
+                let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
+                if (!re.test(this.element.value)) {
+                    this.messageEl.innerText = 'E-mail incorect';
+                    this.verified = false;
+                } else {
+                    this.verified = true;
+                    this.messageEl.innerHTML = '<i class="fas fa-check"></i>';
+                }
+
+            }, 500)
+
+        })
+    }
+
+    verifyPassword () {
+        this.verified = false;
+        this.element.addEventListener('keyup', () => {
+
+            let propsed;
+            setTimeout( () => {
+                if (this.element.value.length < 6) {
+                    this.messageEl.innerText = `Password nees at least ${6- this.element.value.length} more signs`;
+                    this.verified = false;
+                } else {
+                    this.verified = true;
+                    this.messageEl.innerHTML = '<i class="fas fa-check"></i>';
+                }
+            },500)
         })
     }
 }
@@ -90,11 +120,12 @@ class SignUp {
     constructor(name, email, pass) {
         this.name = name,
         this.email = email,
-        this.pass = pass
+        this.pass = pass,
+        this.correct = false
     }
 
     opendialog () {
-        let verified = true;
+
         const dialogWindow = document.querySelector('.message');
         dialogWindow.classList.add('active');
         const form = document.createElement('form');
@@ -103,7 +134,7 @@ class SignUp {
         form.appendChild(h2);
 
         //USER NAME
-        const label1 = createLabel('Your User Name');
+        const label1 = createLabel('Your User Name:');
         form.appendChild(label1);
 
         const div1 = document.createElement('div');
@@ -115,7 +146,7 @@ class SignUp {
         form.appendChild(div1);
 
         //EMAIL
-        const label2 = createLabel('Your E-mail address');
+        const label2 = createLabel('Your E-mail address:');
         form.appendChild(label2);
 
         const div2 = document.createElement('div');
@@ -126,18 +157,32 @@ class SignUp {
         div2.appendChild(span2);
         form.appendChild(div2);
 
+        //PASSWORD
+        const label3 = createLabel('Your Password:');
+        form.appendChild(label3);
+
+        const div3 = document.createElement('div');
+        const input3 = createInput('password','your secret password', 'password');
+        div3.appendChild(input3);
+
+        const span3 = createSpan('span3');
+        div3.appendChild(span3);
+        form.appendChild(div3);
+
 
         dialogWindow.appendChild(form);
 
-        let name = new Verify(input1,span1);
-        let mail = new Verify(input2, span2)
-        name.verifyName();
-        mail.verifyEmail();
+    }
+
+    addbutton () {
+        const form = document.querySelector('form');
+        const button = createButton('Register', 'register');
+        form.appendChild(button);
     }
 }
 
 //definitions
-
+let verified = false;
 let register = new SignUp();
 let databaseurl = '2048/database';
 let database = new Db();
@@ -162,13 +207,27 @@ let createInput = (type, placeholder, id) => {
     return result;
 }
 
-//
-//
-//
-// let a = database.exist('kytek', databaseurl);
-//
-// a.then(e => console.log(e) );
-//
+let createButton = (text, clas) => {
+    const result = document.createElement('button');
+    result.classList.add(clas);
+    result.innerText = text;
+    return result;
+}
+
+let addbtn = (name,mail,pass) => {
+
+    const form = document.querySelector('form');
+
+    if(name.verified===true && mail.verified===true && pass.verified===true) {
+        const button = createButton('Register', 'register');
+        form.appendChild(button);
+        form.removeEventListener('mousemove', add);
+    }
+}
+
+
+
+
 
 
 //HTML elements
@@ -178,6 +237,35 @@ const signup = document.querySelector('.sign-up');
 signup.onclick = e => {
     console.log('klikles');
     register.opendialog();
+    const form = document.querySelector('form');
+    const input1 = document.querySelector('#userName');
+    const input2 = document.querySelector('#email');
+    const input3 = document.querySelector('#password');
+    const span1 = document.querySelector('.span1');
+    const span2 = document.querySelector('.span2');
+    const span3 = document.querySelector('.span3');
+    const name = new Verify(input1,span1);
+    const mail = new Verify(input2, span2);
+    const pass = new Verify(input3,span3);
+    name.verifyName();
+    mail.verifyEmail();
+    pass.verifyPassword();
+    let addbtn = (name,mail,pass) => {
+
+        const form = document.querySelector('form');
+
+        if(name.verified===true && mail.verified===true && pass.verified===true) {
+            const button = createButton('Register', 'register');
+            form.appendChild(button);
+            form.removeEventListener('mousemove', add);
+        }
+    }
+    let add = () => {
+        addbtn(name,mail,pass);
+    }
+    form.addEventListener('mousemove', add);
+
+
 
 }
 
