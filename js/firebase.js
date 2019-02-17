@@ -39,9 +39,10 @@ class Db {
             .catch(e => {
                 console.log(e);
             })
-
     }
-    existEmail (mail) {
+
+    addName (name,path) {
+        this.connect(path).update({Users: firebase.firestore.FieldValue.arrayUnion(name)})
     }
 }
 
@@ -179,13 +180,155 @@ class SignUp {
         const button = createButton('Register', 'register');
         form.appendChild(button);
     }
+
+    submituser () {
+        let user = null;
+        this.name = document.querySelector('#userName').value;
+        this.email = document.querySelector('#email').value;
+        this.pass = document.querySelector('#password').value;
+        firebase.auth().createUserWithEmailAndPassword(this.email, this.pass)
+            .then(() => {
+                user = firebase.auth().currentUser;
+
+            }).then(() => {
+            user.updateProfile({
+                displayName: this.name
+            });
+
+        })
+            .catch( error => {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log(errorCode);
+                console.log(errorMessage);
+            });
+    }
+
+}
+
+class User extends SignUp {
+
+    opendialod () {
+        const dialogWindow = document.querySelector('.message');
+        dialogWindow.classList.add('active');
+        const form = document.createElement('form');
+        const h2 = document.createElement('h2');
+        h2.innerText = 'Sign In';
+        form.appendChild(h2);
+
+        //EMAIL
+        const label2 = createLabel('Your E-mail address:');
+        form.appendChild(label2);
+
+        const input2 = createInput('email','your@eamil.2048', 'email');
+        form.appendChild(input2);
+
+
+        //PASSWORD
+        const label3 = createLabel('Your Password:');
+        form.appendChild(label3);
+
+        const input3 = createInput('password','your secret password', 'password');
+        form.appendChild(input3);
+
+        const button = createButton('Sign in', 'loggin');
+        form.appendChild(button);
+
+        dialogWindow.appendChild(form);
+    }
+
+    submit () {
+        this.email = document.querySelector('#email').value;
+        this.pass = document.querySelector('#password').value;
+        firebase.auth().signInWithEmailAndPassword(this.email, this.pass)
+            .catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                window.alert(errorCode + errorMessage);
+
+            })
+    }
+
+    logged () {
+        const uname = document.querySelector('.User p');
+        const su = document.querySelector('.sign-up');
+        const si = document.querySelector('.sign-in');
+        const i = document.querySelector('.fa-user-circle');
+        i.classList.add('logged');
+        su.classList.remove('sign-up');
+        su.classList.add('settings');
+        su.innerText = this.name;
+        si.classList.remove('sign-in');
+        si.classList.add('logout');
+        si.innerText = 'log-out';
+        uname.innerText = this.name;
+    }
+
+    status (user) {
+        this.name = user.displayName;
+        this.email = user.email;
+    }
+
+    logout () {
+        const lo = document.querySelector('.logout');
+        const se = document.querySelector('.settings');
+        const uname = document.querySelector('.User p');
+        const i = document.querySelector('.fa-user-circle');
+
+        firebase.auth().signOut().then(() => {
+            window.alert('Do zobaczenia!');
+            setTimeout(() => {
+                lo.classList.remove('logout');
+                lo.classList.add('sign-in');
+                lo.innerText = 'Sign-in';
+                se.classList.remove('settings');
+                se.classList.add('sign-up');
+                se.innerText = 'Sign-up';
+                uname.innerText = 'User';
+                i.classList.remove('logged');
+
+            }, 300);
+        }, function (error) {
+            window.alert('Coś poszło nie tak');
+        });
+
+    }
+
+}
+
+class CloseWindow {
+
+    constructor (element, tr) {
+        this.win = element,
+        this.eks = tr
+    }
+
+    closeWindowEvent () {
+        const form = document.querySelector('.message form');
+        this.eks.onclick = e => {
+            this.win.classList.remove('active');
+            this.win.removeChild(form);
+        }
+    }
+    closeWindow () {
+        const form = document.querySelector('.message form');
+        this.win.classList.remove('active');
+        this.win.removeChild(form);
+    }
 }
 
 //definitions
 let verified = false;
 let register = new SignUp();
+let userprofile = new User();
 let databaseurl = '2048/database';
 let database = new Db();
+let btn;
+const meswin = document.querySelector('.message');
+const eks = document.querySelector('#close');
+const closemessage = new CloseWindow(meswin,eks);
 
 let createLabel = (text) => {
     const result = document.createElement('label');
@@ -214,28 +357,39 @@ let createButton = (text, clas) => {
     return result;
 }
 
-let addbtn = (name,mail,pass) => {
+let lout = () => {
+    debugger;
+    const so = document.querySelector('.logout');
+    userprofile.logout();
+    so.removeEventListener('click', lout);
+    setTimeout(() => {
+        signin.addEventListener('click', logprocces);
 
-    const form = document.querySelector('form');
-
-    if(name.verified===true && mail.verified===true && pass.verified===true) {
-        const button = createButton('Register', 'register');
-        form.appendChild(button);
-        form.removeEventListener('mousemove', add);
-    }
+    },500);
 }
-
-
-
-
 
 
 //HTML elements
 const signup = document.querySelector('.sign-up');
+const signin = document.querySelector('.sign-in');
 
 //events
-signup.onclick = e => {
-    console.log('klikles');
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        userprofile.status(user);
+        userprofile.logged();
+        signup.removeEventListener('click', regProcces);
+
+        const so = document.querySelector('.logout');
+        so.addEventListener('click', lout);
+    }
+});
+
+//Rejestracja
+const regProcces = e => {
+    if (btn != undefined) {
+        closemessage.closeWindow();
+    }
     register.opendialog();
     const form = document.querySelector('form');
     const input1 = document.querySelector('#userName');
@@ -244,32 +398,56 @@ signup.onclick = e => {
     const span1 = document.querySelector('.span1');
     const span2 = document.querySelector('.span2');
     const span3 = document.querySelector('.span3');
+
     const name = new Verify(input1,span1);
     const mail = new Verify(input2, span2);
     const pass = new Verify(input3,span3);
     name.verifyName();
     mail.verifyEmail();
     pass.verifyPassword();
-    let addbtn = (name,mail,pass) => {
+    register.addbutton();
+    btn = document.querySelector('.register');
+    btn.onclick = e => {
+        e.preventDefault();
+        if(name.verified && mail.verified && pass.verified) {
+            register.submituser();
+            database.addName(register.name,databaseurl);
+            userprofile.name = register.name;
+            userprofile.mail = register.email;
+            userprofile.logged();
+            signup.removeEventListener('click', regProcces);
+            closemessage.closeWindow();
+            const so = document.querySelector('.logout');
+            so.addEventListener('click', lout);
 
-        const form = document.querySelector('form');
-
-        if(name.verified===true && mail.verified===true && pass.verified===true) {
-            const button = createButton('Register', 'register');
-            form.appendChild(button);
-            form.removeEventListener('mousemove', add);
         }
     }
-    let add = () => {
-        addbtn(name,mail,pass);
+    closemessage.closeWindowEvent();
+}
+
+signup.addEventListener('click', regProcces);
+
+//Log-in
+const logprocces = () => {
+    if (btn != undefined) {
+        closemessage.closeWindow();
     }
-    form.addEventListener('mousemove', add);
-
-
+    signin.removeEventListener('click', logprocces);
+    userprofile.opendialod();
+    closemessage.closeWindowEvent();
+    btn = document.querySelector('.loggin');
+    btn.onclick = e => {
+        e.preventDefault();
+        userprofile.submit();
+        // userprofile.logged();
+        closemessage.closeWindow();
+        const so = document.querySelector('.logout');
+        so.addEventListener('click', lout);
+    }
 
 }
 
-
+signin.addEventListener('click', logprocces);
 
 // let db = firebase.firestore();
 // const docRef = db.doc("2048/database");

@@ -9,7 +9,6 @@
   padding-top: 5rem;
   text-align: center;
   display: none;
-  font-family: 'Lato', sans-serif;
 
   i#close {
     position: absolute;
@@ -65,12 +64,14 @@
     width: 80%;
     .label {
       width: 100%;
+      margin-top: 1rem;
     }
     span {
       margin-left: 1rem;
     }
     input {
       width: 60%;
+      line-height: 1.5rem;
     }
 
     .fa-spinner {
@@ -79,6 +80,23 @@
 
     .fa-check {
       color: $col3;
+    }
+
+    button {
+      width: 60%;
+      margin-top: 2rem;
+      line-height: 2rem;
+      border-radius: 15px;
+      background: $col3;
+      color: $col2;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: transform .5s ease-out;
+
+      &:hover {
+        transform: translate(3px, 3px);
+        transition: transform .2s  ease-in;
+      }
     }
   }
 
