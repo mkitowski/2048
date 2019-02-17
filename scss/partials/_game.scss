@@ -3,7 +3,7 @@
   font-size: 1em;
   text-align: center;
   background: $bd1;
-  color: $col1;
+  color: $col2;
   width: 200px;
   border-radius: 15px;
   margin: 30px auto;
@@ -13,10 +13,10 @@ article {
   width: 298px;
   height: 298px;
   margin: 50px auto;
-  background: $col1;
+  background: $col2;
   display: flex;
   flex-wrap: wrap;
-  border: 5px solid $col2;
+  border: 5px solid $bd1;
   border-radius: 15px;
 }
 
@@ -24,7 +24,7 @@ article {
   font-family: 'Cabin Sketch', cursive;
   width: 96px;
   height: 96px;
-  border: 2px solid $col2;
+  border: 2px solid $bd1;
   padding-top: 25px;
   font-size: 1.7em;
   border-radius: 5px;
