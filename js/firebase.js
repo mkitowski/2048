@@ -362,10 +362,7 @@ let lout = () => {
     const so = document.querySelector('.logout');
     userprofile.logout();
     so.removeEventListener('click', lout);
-    setTimeout(() => {
-        signin.addEventListener('click', logprocces);
-
-    },500);
+    signin.addEventListener('click', logprocces);
 }
 
 
@@ -439,7 +436,7 @@ const logprocces = () => {
     btn.onclick = e => {
         e.preventDefault();
         userprofile.submit();
-        // userprofile.logged();
+        userprofile.logged();
         closemessage.closeWindow();
         const so = document.querySelector('.logout');
         so.addEventListener('click', lout);
