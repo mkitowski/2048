@@ -129,5 +129,25 @@
 
   }
 
+  .instruction {
+    text-align: left;
+    width: 80%;
+    margin: 0 auto;
+    height: 90%;
+    overflow: auto;
+
+    h3 {
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    h4 {
+      margin: 1rem 0 .5rem;
+    }
+
+    .updates {
+      margin-top: 1.5rem;
+    }
+  }
 
 }

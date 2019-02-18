@@ -28,14 +28,11 @@ class Db {
         let userexists;
         return this.connect(this.path).get()
             .then(querySnapshot => {
-
                 let users = querySnapshot.data().Users;
                 if (users.indexOf(name) > -1) {
                     userexists = true;
                     return userexists;
-
                 } else {
-
                     return false;
                 }
             })
@@ -50,11 +47,20 @@ class Db {
 
     getInstructions() {
         return this.connect(this.path).get()
-        .then( e => {
-            let instruction = e.data().Instructions;
-            // console.log(instruction.language);
-            return instruction;
-        })
+            .then( e => {
+                let instruction = e.data().Instructions;
+                // console.log(instruction.language);
+                return instruction;
+            })
+    }
+
+    getUpdats() {
+        return this.connect(this.path).get()
+            .then( e => {
+                let updats = e.data().Updates;
+                // console.log(updats);
+                return updats;
+            })
     }
 
 
@@ -204,11 +210,11 @@ class SignUp {
                 user = firebase.auth().currentUser;
 
             }).then(() => {
-                user.updateProfile({
-                    displayName: this.name
-                });
+            user.updateProfile({
+                displayName: this.name
+            });
 
-            })
+        })
             .catch(error => {
                 // Handle Errors here.
                 var errorCode = error.code;
@@ -353,16 +359,18 @@ let verified = false;
 let register = new SignUp();
 let userprofile = new User();
 let databaseurl = '2048/database';
+let dataupdatesurl = '2018/database';
 let database = new Db(databaseurl);
+let updats = new Db(dataupdatesurl);
 let btn;
 const meswin = document.querySelector('.message');
 const eks = document.querySelector('#close');
 const closemessage = new CloseWindow(meswin, eks);
 
 let inst;
-
 database.getInstructions().then(e => inst = e);
-
+let upd;
+database.getUpdats().then(e => upd = e);
 
 let createLabel = (text) => {
     const result = document.createElement('label');
@@ -404,7 +412,17 @@ let lout = () => {
 
 }
 
+function convert(time){
 
+    let unixtimestamp = time;
+    let months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    let date = new Date(unixtimestamp*1000);
+    let year = date.getFullYear();
+    let month = months_arr[date.getMonth()];
+    let day = date.getDate();
+    let convdataTime = `${day}.${month}.${year}`;
+    return convdataTime;
+}
 
 //HTML elements
 const signup = document.querySelector('.sign-up');
@@ -495,6 +513,18 @@ instruction.onclick = e => {
     const div = document.createElement('div');
     div.classList.add('instruction');
     div.innerHTML = inst.EN;
+    const div2 = document.createElement('div');
+    div2.classList.add('updates');
+    for (let i in upd) {
+        let h4 = document.createElement('h4');
+        h4.innerText = convert(upd[i].Date.seconds);
+        div2.appendChild(h4);
+        let div3 = document.createElement('div.upd');
+        div3.innerHTML = upd[i].Update;
+        div2.appendChild(div3);
+    }
+    div.appendChild(div2);
+
     meswin.appendChild(div);
     closemessage.closeWindowEvent();
 }
