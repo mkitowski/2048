@@ -515,6 +515,9 @@ instruction.onclick = e => {
     div.innerHTML = inst.EN;
     const div2 = document.createElement('div');
     div2.classList.add('updates');
+    let h3 = document.createElement('h3');
+    h3.innerText = 'Updates';
+    div2.appendChild(h3);
     for (let i in upd) {
         let h4 = document.createElement('h4');
         h4.innerText = convert(upd[i].Date.seconds);
