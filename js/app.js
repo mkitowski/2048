@@ -1,40 +1,75 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    let boxes = document.querySelectorAll('.box');
+    let boxes = document.querySelector('.b1_1');
     let button = document.querySelector('#start');
     let scoretext = document.querySelector('.score');
     let b1 = ['','','','','','','','',''];
+    let bx = [['', '',''], ['', '',''], ['', '','']];
     let score = 0;
 
-    class tail {
-        constructor (pos, num) {
-            this.position = pos,
-            this.number = num
+    class Tail {
+        constructor (num, row, col) {
+
+            this.number = num,
+            this.row = row,
+            this.col = col
+        }
+
+        create() {
+            const tl = document.createElement('div');
+            tl.classList.add(`t-${ this.col }-${this.row}`);
+            tl.classList.add('tail');
+            tl.innerText = this.number;
+            boxes.appendChild(tl);
         }
 
     }
 
 
     const start = () => {
-        let result = 0;
-        result = Math.floor(Math.random() * 9);
-
-        b1[result] = 2;
-        boxes.forEach((e , i) => {
-            if (i !== result) {
-                boxes[i].innerHTML = '';
-                b1[i] = '';
-                changeBkgColor(i);
-            }
-        });
+        let col, row;
+        col = Math.floor(Math.random() * 3) + 1;
+        row = Math.floor(Math.random() * 3) + 1;
         score = 0;
+        bx[row-1][col-1] = new Tail(2,row,col);
+        bx[row - 1][col - 1].create();
+        console.log(bx[row - 1][col - 1]);
+    }
 
-        var t1 = new tail(result,2);
+    button.onclick = start;
 
+    const newtail = () => {
+        let col, row;
+        col = Math.floor(Math.random() * 3) + 1;
+        row = Math.floor(Math.random() * 3) + 1;
+        if (bx[row-1][col-1] === '') {
+            bx[row - 1][col - 1] = new Tail(2, row, col);
+            bx[row - 1][col - 1].create();
+        } else {
+            newtail();
+        }
+    }
+    const killtail = (col,row) => {
+        let die = document.querySelector(`.t-${col}-${row}`);
+        boxes.removeChild(die);
 
     }
 
+    const down = () => {
+       for (let i = 1; i >= 0; i--) {
+           for(let j = 0; j < 2; j++){
+               if(bx[i][j] !== '' && bx[i+1][j]===''){
+
+                   let current = document.querySelector(`.t-${i}-${j}`);
+                    console.log(`${current} + ${i} + ${j} + ${bx[i][j]}`);
+                //    current.classList.add(`.t-${i+1}-${j}`);
+                //    current.classList.remove(`.t-${i}-${j}`);
+               }
+           }
+       }
+        newtail();
+    }
 
     // const restart = () => {
     //     let result = 0;
@@ -370,67 +405,65 @@ document.addEventListener("DOMContentLoaded", function () {
     //
     //
     //
-    // const  moveit = key => {
-    //     if (key === 83 || key === 40) {  //down
-    //         movedown();
     //
-    //     } else if (key === 87 || key === 38) { //up
-    //         moveup();
-    //
-    //     } else if (key === 68 || key === 39) { //right
-    //         moveright();
-    //
-    //     } else if (key === 65 || key === 37) { //left
-    //         moveleft();
-    //
-    //     }
-    // }
-    //
-    // window.addEventListener('keydown', e => moveit(e.keyCode));
-    //
+    const moveit = key => {
+        if (key === 83 || key === 40) {  //down
+            down();
+
+        } else if (key === 87 || key === 38) { //up
+            // moveup();
+
+        } else if (key === 68 || key === 39) { //right
+            // moveright();
+
+        } else if (key === 65 || key === 37) { //left
+            // moveleft();
+
+        }
+    }
+
+    window.addEventListener('keydown', e => moveit(e.keyCode));
+
     // var pointx, pointy, pointsx, pointsy;
-    //
+
     // window.addEventListener('touchstart', e => {
-    //
+
     //     var touchobj = e.changedTouches[0];
-    //
+
     //     pointx = touchobj.pageX;
     //     pointy = touchobj.pageY;
-    //
-    //
+
+
     // }, false);
-    //
-    // window.addEventListener('touchmove', ev => {
-    //     if (window) {
-    //         ev.preventDefault();
-    //         ev.stopImmediatePropagation();
-    //     }
-    //
-    // }, { passive: false });
-    //
-    //
-    // window.addEventListener('touchend',e => {
+
+    window.addEventListener('touchmove', ev => {
+        if (window) {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+        }
+
+    }, { passive: false });
+
+
+    // window.addEventListener('touchend', e => {
     //     var touchobj = e.changedTouches[0];
-    //
+
     //     pointsx = touchobj.pageX;
     //     pointsy = touchobj.pageY;
     //     var axlex = pointsx - pointx;
     //     var axley = pointsy - pointy;
-    //
-    //     if (Math.abs(axlex)+Math.abs(axley) > 50) {
-    //
-    //         if (((axlex >= 0) && (axley > 0) && (axley > axlex))||((axlex <= 0) && (axley > 0) && (axley > -axlex))) {
+
+    //     if (Math.abs(axlex) + Math.abs(axley) > 50) {
+
+    //         if (((axlex >= 0) && (axley > 0) && (axley > axlex)) || ((axlex <= 0) && (axley > 0) && (axley > -axlex))) {
     //             movedown();
-    //         } else if (((axlex >= 0) && (axley < 0) && (-axley > axlex))||((axlex <= 0) && (axley < 0) && (axley < axlex))) {
+    //         } else if (((axlex >= 0) && (axley < 0) && (-axley > axlex)) || ((axlex <= 0) && (axley < 0) && (axley < axlex))) {
     //             moveup();
-    //         } else if (((axlex > 0) && (axley >= 0) && (axlex > axley))||((axlex > 0) && (axley <= 0) && (-axley < axlex))) {
+    //         } else if (((axlex > 0) && (axley >= 0) && (axlex > axley)) || ((axlex > 0) && (axley <= 0) && (-axley < axlex))) {
     //             moveright();
-    //         } else {moveleft();}
+    //         } else { moveleft(); }
     //     }
-    //
-    //
-    //
-    //
+
     // }, false)
 
 });

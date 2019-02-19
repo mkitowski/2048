@@ -25,8 +25,28 @@ article {
   width: 96px;
   height: 96px;
   border: 2px solid $bd1;
-  padding-top: 25px;
+  z-index: 3;
   font-size: 1.7em;
   border-radius: 5px;
   text-align: center;
+  .tail {
+     width: 96px;
+      height: 96px;
+      border-radius: 5px;
+      background: $col3;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      z-index: 2;
+  }
+  @for $j from 1 to 4 {
+    @for $i from 1 to 4 {
+    .t-#{$j}-#{$i} {
+      transform: translate(($j - 1)*96px,($i - 1)*96px);
+      transition: transform .3s ease-in-out;
+    }
+  }
+  }
+
+
 }
