@@ -4,24 +4,56 @@ document.addEventListener("DOMContentLoaded", function () {
     let boxes = document.querySelector('.b1_1');
     let button = document.querySelector('#start');
     let scoretext = document.querySelector('.score');
-    let b1 = ['','','','','','','','',''];
-    let bx = [['', '',''], ['', '',''], ['', '','']];
+    let bx = [['', '', ''], ['', '', ''], ['', '', '']];
     let score = 0;
+    let time = 300;
 
     class Tail {
-        constructor (num, row, col) {
+        constructor(num, row, col) {
 
             this.number = num,
-            this.row = row,
-            this.col = col
+                this.row = row,
+                this.col = col
         }
 
         create() {
             const tl = document.createElement('div');
-            tl.classList.add(`t-${ this.row}-${this.col}`);
+            tl.classList.add(`t-${this.row}-${this.col}`);
             tl.classList.add('tail');
             tl.innerText = this.number;
             boxes.appendChild(tl);
+        }
+
+        relocate(nrow, ncol) {
+            let el = document.querySelector(`.t-${this.row}-${this.col}`);
+            el.classList.remove(`t-${this.row}-${this.col}`);
+            bx[nrow][ncol] = bx[this.row][this.col];
+            bx[this.row][this.col] = '';
+            this.row = nrow;
+            this.col = ncol;
+            el.classList.add(`t-${this.row}-${this.col}`);
+            el.classList.remove(`joint`);
+            return true;
+        }
+
+        join(nrow, ncol) {
+
+            let el1 = document.querySelector(`.t-${this.row}-${this.col}`);
+            let el2 = document.querySelector(`.t-${nrow}-${ncol}`);
+            el1.classList.remove(`t-${this.row}-${this.col}`);
+            bx[nrow][ncol] = bx[this.row][this.col];
+            bx[this.row][this.col] = '';
+            this.number *= 2;
+            this.row = nrow;
+            this.col = ncol;
+            el1.classList.add(`t-${this.row}-${this.col}`);
+            el1.classList.remove(`joint`);
+            setTimeout(() => {
+                el1.classList.add('joint');
+                el1.innerText = bx[this.row][this.col].number;
+                boxes.removeChild(el2);
+            }, time);
+            return true;
         }
 
     }
@@ -30,11 +62,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const start = () => {
         let col, row;
         boxes.innerHTML = '';
-        bx = [['', '',''], ['', '',''], ['', '','']];
+        bx = [['', '', ''], ['', '', ''], ['', '', '']];
         col = Math.floor(Math.random() * 3);
         row = Math.floor(Math.random() * 3);
         score = 0;
-        bx[row][col] = new Tail(2,row,col);
+        bx[row][col] = new Tail(2, row, col);
         bx[row][col].create();
         console.log(bx[row][col]);
     }
@@ -52,71 +84,64 @@ document.addEventListener("DOMContentLoaded", function () {
             newtail();
         }
     }
-    const killtail = (row,col) => {
+    const killtail = (row, col) => {
         let die = document.querySelector(`.t-${row}-${col}`);
         boxes.removeChild(die);
 
     }
 
     const down = () => {
-       for (let r = 1; r >= 0; r--) {
-           for(let c = 0; c < 3; c++){
+        let moved = false;
+        for (let i = 0; i<3;i++ ){
+            let el1 = bx[1][i];
+            let el2 = bx[2][i];
 
-               if (bx[0][c] !== '' && bx[1][c]==='' && bx[2][c]==='') {
-                   let cl = `.t-0-${c}`;
-                   let el = document.querySelector(cl);
-                   el.classList.add(`t-2-${c}`);
-                   el.classList.remove(`t-0-${c}`);
-                   el.classList.remove('joint');
-                   bx[2][c] = bx[0][c];
-                   bx[0][c] = '';
-               } else if (bx[r][c] !== '' && bx[r+1][c]==='')  {
-                   let cl = `.t-${r}-${c}`;
-                   let el = document.querySelector(cl);
-                   el.classList.add(`t-${r+1}-${c}`);
-                   el.classList.remove(`t-${r}-${c}`);
-                   el.classList.remove('joint');
-                   bx[r+1][c] = bx[r][c];
-                   bx[r][c] = '';
-               } else if (bx[0][c] !=='' && bx[1][c] ==='' && bx[2][c].number === bx[0][c].number) {
-                   let cl1 = `.t-0-${c}`;
-                   let cl2 = `.t-2-${c}`;
-                   let el1 = document.querySelector(cl1);
-                   let el2 = document.querySelector(cl2);
-                   el1.classList.add(`t-2-${c}`);
-                   el1.classList.remove('joint');
-                   el1.classList.remove(`t-0-${c}`);
-                   bx[2][c] = bx[0][c];
-                   bx[0][c] = '';
-                   console.log(bx[2][c].number);
-                   bx[2][c].number *= 2;
-                   setTimeout(() => {
-                       el1.classList.add('joint');
-                       el1.innerText = bx[2][c].number;
-                       boxes.removeChild(el2);
-                   },250);
-               } else if (bx[r][c] !=='' && bx[r+1][c].number === bx[r][c].number) {
-                   let cl1 = `.t-${r}-${c}`;
-                   let cl2 = `.t-${r+1}-${c}`;
-                   let el1 = document.querySelector(cl1);
-                   let el2 = document.querySelector(cl2);
-                   el1.classList.add(`t-${r+1}-${c}`);
-                   el1.classList.remove('joint');
-                   el1.classList.remove(`t-${r}-${c}`);
-                   bx[r+1][c] = bx[r][c];
-                   bx[r][c] = '';
-                   console.log(bx[r+1][c].number);
-                   bx[r+1][c].number *= 2;
-                   setTimeout(() => {
-                       el1.classList.add('joint');
-                       el1.innerText = bx[r+1][c].number;
-                       boxes.removeChild(el2);
-                   },250);
-               }
-           }
-       }
-       setTimeout(newtail,300);
+            if(el1 && el1.number===el2.number){ moved = el1.join(2,i)}
+            else if(el1 && el2===''){ moved = el1.relocate(2,i)}
+        }
+        for (let i=0; i<3; i++){
+            let el0 = bx[0][i];
+            let el1 = bx[1][i];
+            let el2 = bx[2][i];
+            if(el0 && el1==='' && el2===''){ moved = el0.relocate(2,i)}
+            else if(el0 && el0.number === el2.number && el1===''){ moved = el0.join(2,i)}
+            else if(el0 && el0.number === el1.number) { moved = el0.join(1,i)}
+            else if(el0 && el1==='') {moved = el0.relocate(1,i)}
+        }
 
+        if (moved) {
+            setTimeout(newtail, time);
+        }
+    }
+
+    const up = () => {
+        let moved = false;
+
+        for (let i = 0; i < 3; i++) {
+            let el1 = bx[1][i];
+            let el0 = bx[0][i];
+            let el2 = bx[2][i];
+            if (el1 && el1.number === el0.number) {
+                moved = el1.join(0, i);
+                if(el2.number === el0.number){el2.relocate(1,i)}
+            }
+            else if (el1 && el0 === '') { moved = el1.relocate(0, i) }
+        }
+        for (let i = 0; i < 3; i++) {
+            let el0 = bx[0][i];
+            let el1 = bx[1][i];
+            let el2 = bx[2][i];
+            if (el2 && el1 === '' && el0 === '') { moved = el2.relocate(0, i) }
+            else if (el2 && el2.number === el0.number && el1 === '') { moved = el2.join(0, i) }
+            else if (el2 && el2.number === el1.number) { moved = el2.join(1, i) }
+            else if (el2 && el1 === '') { moved = el2.relocate(1, i) }
+        }
+
+
+
+        if (moved) {
+            setTimeout(newtail, time);
+        }
     }
 
     // const restart = () => {
@@ -459,7 +484,7 @@ document.addEventListener("DOMContentLoaded", function () {
             down();
 
         } else if (key === 87 || key === 38) { //up
-            // moveup();
+            up();
 
         } else if (key === 68 || key === 39) { //right
             // moveright();
