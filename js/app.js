@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let boxes = document.querySelector('.b1_1');
     let button = document.querySelector('#start');
+    let button_undo = document.querySelector('#undo');
+
     let scoretext = document.querySelector('.score');
     let bx = [['', '', ''], ['', '', ''], ['', '', '']];
     let score = 0;
@@ -13,49 +15,83 @@ document.addEventListener("DOMContentLoaded", function () {
 
             this.number = num,
                 this.row = row,
-                this.col = col
+                this.col = col,
+                this.div
         }
 
         create() {
-            const tl = document.createElement('div');
-            tl.classList.add(`t-${this.row}-${this.col}`);
-            tl.classList.add('tail');
-            tl.innerText = this.number;
-            boxes.appendChild(tl);
+            this.div = document.createElement('div');
+            this.div.classList.add(`t-${this.row}-${this.col}`);
+            this.div.classList.add('tail');
+            this.div.innerText = this.number;
+            boxes.appendChild(this.div);
         }
 
         relocate(nrow, ncol) {
-            let el = document.querySelector(`.t-${this.row}-${this.col}`);
-            el.classList.remove(`t-${this.row}-${this.col}`);
+
+            this.div = document.querySelector(`.t-${this.row}-${this.col}`);
+            this.div.classList.remove(`t-${this.row}-${this.col}`);
             bx[nrow][ncol] = bx[this.row][this.col];
             bx[this.row][this.col] = '';
             this.row = nrow;
             this.col = ncol;
-            el.classList.add(`t-${this.row}-${this.col}`);
-            el.classList.remove(`joint`);
+            this.div.classList.add(`t-${this.row}-${this.col}`);
+            this.div.classList.remove(`joint`);
+
             return true;
         }
 
         join(nrow, ncol) {
 
-            let el1 = document.querySelector(`.t-${this.row}-${this.col}`);
+            this.div = document.querySelector(`.t-${this.row}-${this.col}`);
             let el2 = document.querySelector(`.t-${nrow}-${ncol}`);
-            el1.classList.remove(`t-${this.row}-${this.col}`);
+            this.div.classList.remove(`t-${this.row}-${this.col}`);
             bx[nrow][ncol] = bx[this.row][this.col];
             bx[this.row][this.col] = '';
             this.number *= 2;
             this.row = nrow;
             this.col = ncol;
-            el1.classList.add(`t-${this.row}-${this.col}`);
-            el1.classList.remove(`joint`);
+            this.div.classList.add(`t-${this.row}-${this.col}`);
+            el2.classList.add(`remove`);
+            el2 = document.querySelector('.remove');
+            this.div.classList.remove(`joint`);
             setTimeout(() => {
-                el1.classList.add('joint');
-                el1.innerText = bx[this.row][this.col].number;
+                this.div.classList.add('joint');
+                this.div.innerText = bx[this.row][this.col].number;
                 boxes.removeChild(el2);
             }, time);
+
             return true;
         }
 
+    }
+
+    class Backup {
+        constructor() {
+            this.html,
+            this.base = [['', '', ''], ['', '', ''], ['', '', '']],
+            this.score
+        }
+
+        store () {
+            this.html = document.querySelector('.b1_1').innerHTML;
+            bx.forEach((e1,i) => {
+                e1.forEach( (e2,j) =>{
+                    this.base[i][j] = e2;
+                })
+            })
+
+        }
+
+        undo() {
+            let bo = document.querySelector('.b1_1');
+            bo.innerHTML = this.html;
+            this.base.forEach((e1,i) => {
+                e1.forEach( (e2,j) =>{
+                    bx[i][j] = e2;
+                })
+            })
+        }
     }
 
 
@@ -68,48 +104,67 @@ document.addEventListener("DOMContentLoaded", function () {
         score = 0;
         bx[row][col] = new Tail(2, row, col);
         bx[row][col].create();
-        console.log(bx[row][col]);
+        window.addEventListener('keydown',keypress);
+        bck1.store();
     }
 
     button.onclick = start;
 
     const newtail = () => {
+
         let col, row;
         col = Math.floor(Math.random() * 3);
         row = Math.floor(Math.random() * 3);
         if (bx[row][col] === '') {
             bx[row][col] = new Tail(2, row, col);
             bx[row][col].create();
+            window.addEventListener('keydown',keypress);
+
         } else {
             newtail();
         }
     }
-    const killtail = (row, col) => {
-        let die = document.querySelector(`.t-${row}-${col}`);
-        boxes.removeChild(die);
 
-    }
 
     const down = () => {
         let moved = false;
         for (let i = 0; i<3;i++ ){
             let el1 = bx[1][i];
             let el2 = bx[2][i];
+            let el0 = bx[0][i];
 
-            if(el1 && el1.number===el2.number){ moved = el1.join(2,i)}
-            else if(el1 && el2===''){ moved = el1.relocate(2,i)}
+            if(el1 && el1.number===el2.number){
+                moved = el1.join(2,i);
+                if(el2.number === el0.number){
+                    el0.relocate(1,i);
+                }
+            }
+            else if(el1 && el2===''){
+                moved = el1.relocate(2,i);
+
+            }
         }
         for (let i=0; i<3; i++){
             let el0 = bx[0][i];
             let el1 = bx[1][i];
             let el2 = bx[2][i];
-            if(el0 && el1==='' && el2===''){ moved = el0.relocate(2,i)}
-            else if(el0 && el0.number === el2.number && el1===''){ moved = el0.join(2,i)}
-            else if(el0 && el0.number === el1.number) { moved = el0.join(1,i)}
-            else if(el0 && el1==='') {moved = el0.relocate(1,i)}
+
+            if(el0 && el1==='' && el2===''){
+                moved = el0.relocate(2,i)
+            }
+            else if(el0 && el0.number === el2.number && el1===''){
+
+
+                moved = el0.join(2,i);}
+            else if(el0 && el0.number === el1.number) {
+                moved = el0.join(1,i)}
+            else if(el0 && el1==='') {
+                moved = el0.relocate(1,i)}
         }
 
         if (moved) {
+            window.removeEventListener('keydown',keypress);
+
             setTimeout(newtail, time);
         }
     }
@@ -122,24 +177,110 @@ document.addEventListener("DOMContentLoaded", function () {
             let el0 = bx[0][i];
             let el2 = bx[2][i];
             if (el1 && el1.number === el0.number) {
+
                 moved = el1.join(0, i);
-                if(el2.number === el0.number){el2.relocate(1,i)}
+                if(el2.number === el0.number){
+                    el2.relocate(1,i)}
             }
-            else if (el1 && el0 === '') { moved = el1.relocate(0, i) }
+            else if (el1 && el0 === '') {
+                moved = el1.relocate(0, i) }
         }
         for (let i = 0; i < 3; i++) {
             let el0 = bx[0][i];
             let el1 = bx[1][i];
             let el2 = bx[2][i];
-            if (el2 && el1 === '' && el0 === '') { moved = el2.relocate(0, i) }
-            else if (el2 && el2.number === el0.number && el1 === '') { moved = el2.join(0, i) }
-            else if (el2 && el2.number === el1.number) { moved = el2.join(1, i) }
-            else if (el2 && el1 === '') { moved = el2.relocate(1, i) }
+            if (el2 && el1 === '' && el0 === '') {
+                moved = el2.relocate(0, i) }
+            else if (el2 && el2.number === el0.number && el1 === '') {
+                moved = el2.join(0, i) }
+            else if (el2 && el2.number === el1.number) {
+                moved = el2.join(1, i) }
+            else if (el2 && el1 === '') {
+                moved = el2.relocate(1, i) }
         }
 
 
 
         if (moved) {
+            window.removeEventListener('keydown',keypress);
+
+            setTimeout(newtail, time);
+        }
+    }
+
+    const right = () => {
+        let moved = false;
+        for (let i = 0; i<3;i++ ){
+            let el0 = bx[i][0];
+            let el1 = bx[i][1];
+            let el2 = bx[i][2];
+
+            if(el1 && el1.number===el2.number){
+
+                moved = el1.join(i,2);
+                if(el2.number === el0.number){
+                    el0.relocate(i,1)}
+
+            }
+            else if(el1 && el2===''){
+                moved = el1.relocate(i,2)}
+        }
+        for (let i=0; i<3; i++){
+            let el0 = bx[i][0];
+            let el1 = bx[i][1];
+            let el2 = bx[i][2];
+            if(el0 && el1==='' && el2===''){
+                moved = el0.relocate(i,2)}
+            else if(el0 && el0.number === el2.number && el1===''){
+                moved = el0.join(i,2)}
+            else if(el0 && el0.number === el1.number) {
+                moved = el0.join(i,1)}
+            else if(el0 && el1==='') {
+                moved = el0.relocate(i,1)}
+        }
+
+        if (moved) {
+            window.removeEventListener('keydown',keypress);
+
+            setTimeout(newtail, time);
+        }
+    }
+
+    const left = () => {
+        let moved = false;
+
+        for (let i = 0; i < 3; i++) {
+            let el1 = bx[i][1];
+            let el0 = bx[i][0];
+            let el2 = bx[i][2];
+            if (el1 && el1.number === el0.number) {
+
+                moved = el1.join(i, 0);
+                if(el2.number === el0.number){
+                    el2.relocate(i,1)}
+            }
+            else if (el1 && el0 === '') {
+                moved = el1.relocate(i, 0) }
+        }
+        for (let i = 0; i < 3; i++) {
+            let el0 = bx[i][0];
+            let el1 = bx[i][1];
+            let el2 = bx[i][2];
+
+            if (el2 && el1 === '' && el0 === '') {
+                moved = el2.relocate(i, 0) }
+            else if (el2 && el2.number === el0.number && el1 === '') {
+                moved = el2.join(i, 0) }
+            else if (el2 && el2.number === el1.number) {
+                moved = el2.join(i, 1) }
+            else if (el2 && el1 === '') {
+                moved = el2.relocate(i, 1) }
+        }
+
+
+
+        if (moved) {
+            window.removeEventListener('keydown',keypress);
             setTimeout(newtail, time);
         }
     }
@@ -487,15 +628,32 @@ document.addEventListener("DOMContentLoaded", function () {
             up();
 
         } else if (key === 68 || key === 39) { //right
-            // moveright();
+            right();
 
         } else if (key === 65 || key === 37) { //left
-            // moveleft();
+            left();
 
         }
     }
+    let bck1 = new Backup()
+    let bck = 2;
+    let keypress = e => {
+        if (bck <= 0){
+            bck1.store();
+        }
+        bck--;
+        moveit(e.keyCode);
 
-    window.addEventListener('keydown', e => moveit(e.keyCode));
+    }
+
+    let back = () => {
+        console.log(bck1.base);
+        bck = 2;
+        bck1.undo();
+
+    }
+
+    button_undo.addEventListener('click', back);
 
     // var pointx, pointy, pointsx, pointsy;
 
