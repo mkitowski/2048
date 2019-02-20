@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         create() {
             const tl = document.createElement('div');
-            tl.classList.add(`t-${ this.row }-${this.col}`);
+            tl.classList.add(`t-${ this.row}-${this.col}`);
             tl.classList.add('tail');
             tl.innerText = this.number;
             boxes.appendChild(tl);
