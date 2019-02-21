@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         create() {
             this.div = document.createElement('div');
+            this.div.id = `r${this.row}-c${this.col}`
             this.div.classList.add(`t-${this.row}-${this.col}`);
             this.div.classList.add('tail');
             this.div.innerText = this.number;
@@ -29,7 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         relocate(nrow, ncol) {
 
-            this.div = document.querySelector(`.t-${this.row}-${this.col}`);
+            // this.div = document.querySelector(`#r${this.row}-c${this.col}`);
+            // console.log(this.div);
             this.div.classList.remove(`t-${this.row}-${this.col}`);
             bx[nrow][ncol] = bx[this.row][this.col];
             bx[this.row][this.col] = '';
@@ -37,14 +39,16 @@ document.addEventListener("DOMContentLoaded", function () {
             this.col = ncol;
             this.div.classList.add(`t-${this.row}-${this.col}`);
             this.div.classList.remove(`joint`);
-
+            this.div.id = `r${this.row}-c${this.col}`;
             return true;
         }
 
         join(nrow, ncol) {
-
-            this.div = document.querySelector(`.t-${this.row}-${this.col}`);
-            let el2 = document.querySelector(`.t-${nrow}-${ncol}`);
+            // console.log(this.row);
+            // console.log(this.col);
+            // this.div = document.querySelector(`#r${this.row}-c${this.col}`);
+            console.log(this.div);
+            let el2 = document.querySelector(`#r${nrow}-c${ncol}`);
             this.div.classList.remove(`t-${this.row}-${this.col}`);
             bx[nrow][ncol] = bx[this.row][this.col];
             bx[this.row][this.col] = '';
@@ -52,47 +56,46 @@ document.addEventListener("DOMContentLoaded", function () {
             this.row = nrow;
             this.col = ncol;
             this.div.classList.add(`t-${this.row}-${this.col}`);
-            el2.classList.add(`remove`);
-            el2 = document.querySelector('.remove');
             this.div.classList.remove(`joint`);
+            this.div.id = `r${this.row}-c${this.col}`
             setTimeout(() => {
                 this.div.classList.add('joint');
                 this.div.innerText = bx[this.row][this.col].number;
                 boxes.removeChild(el2);
-            }, time);
+            }, time-50);
 
             return true;
         }
 
     }
 
-    class Backup {
-        constructor() {
-            this.html,
-            this.base = [['', '', ''], ['', '', ''], ['', '', '']],
-            this.score
-        }
-
-        store () {
-            this.html = document.querySelector('.b1_1').innerHTML;
-            bx.forEach((e1,i) => {
-                e1.forEach( (e2,j) =>{
-                    this.base[i][j] = e2;
-                })
-            })
-
-        }
-
-        undo() {
-            let bo = document.querySelector('.b1_1');
-            bo.innerHTML = this.html;
-            this.base.forEach((e1,i) => {
-                e1.forEach( (e2,j) =>{
-                    bx[i][j] = e2;
-                })
-            })
-        }
-    }
+    // class Backup {
+    //     constructor() {
+    //         this.html,
+    //         this.base = [['', '', ''], ['', '', ''], ['', '', '']],
+    //         this.score
+    //     }
+    //
+    //     store () {
+    //         this.html = document.querySelector('.b1_1').innerHTML;
+    //         bx.forEach((e1,i) => {
+    //             e1.forEach( (e2,j) =>{
+    //                 this.base[i][j] = e2;
+    //             })
+    //         })
+    //
+    //     }
+    //
+    //     undo() {
+    //         let bo = document.querySelector('.b1_1');
+    //         bo.innerHTML = this.html;
+    //         this.base.forEach((e1,i) => {
+    //             e1.forEach( (e2,j) =>{
+    //                 bx[i][j] = e2;
+    //             })
+    //         })
+    //     }
+    // }
 
 
     const start = () => {
@@ -105,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
         bx[row][col] = new Tail(2, row, col);
         bx[row][col].create();
         window.addEventListener('keydown',keypress);
-        bck1.store();
+        // bck1.store();
     }
 
     button.onclick = start;
@@ -635,25 +638,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
     }
-    let bck1 = new Backup()
-    let bck = 2;
+
     let keypress = e => {
-        if (bck <= 0){
-            bck1.store();
-        }
-        bck--;
+
         moveit(e.keyCode);
 
     }
 
-    let back = () => {
-        console.log(bck1.base);
-        bck = 2;
-        bck1.undo();
 
-    }
-
-    button_undo.addEventListener('click', back);
 
     // var pointx, pointy, pointsx, pointsy;
 
