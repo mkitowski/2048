@@ -27,24 +27,29 @@ article {
   border: 5px solid $bd1;
   z-index: 3;
   font-size: 1.7em;
-  border-radius: 0px;
+
   text-align: center;
   .tail {
       width: 87px;
       height: 87px;
-      border-radius: 0px;
+      border-radius: 0;
       background: $col3;
-      margin: 0px 0 0 0px;
+      margin: 0;
       padding-top: 25px;
       position: absolute;
       z-index: 2;
+  }
+
+  .joint {
+    animation: join .3s linear;
+
   }
 
   @for $r from 0 to 3 {
     @for $c from 0 to 3 {
     .t-#{$r}-#{$c} {
       transform: translate($c*96px,$r*96px);
-      transition: transform .3s ease-in-out;
+      transition: transform .2s ease-in-out;
     }
   }
   }
@@ -73,5 +78,13 @@ article {
     }
     $j: $j*4;
   }
+
+  .new {
+    opacity: 0;
+    animation: new .2s ease-in-out normal forwards;
+
+
+  }
+
 
 }

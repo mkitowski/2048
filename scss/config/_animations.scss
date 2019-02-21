@@ -53,3 +53,37 @@
     transform: rotate(0);
   }
 }
+
+@keyframes new {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes join {
+  0% {
+    opacity: 1;
+    font-size: 1.7rem;
+    padding-top: 25px;
+  }
+  20% {
+    opacity: .5;
+    font-size: 4rem;
+    padding-top: 10px;
+  }
+  80% {
+    opacity: .5;
+    font-size: 4rem;
+    padding-top: 10px;
+  }
+  100% {
+    opacity: 1;
+    font-size: 1.7rem;
+    padding-top: 25px;
+  }
+}
+

@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let scoretext = document.querySelector('.score');
     let bx = [['', '', ''], ['', '', ''], ['', '', '']];
     let score = 0;
-    let time = 300;
+    let time = 200;
 
     class Tail {
         constructor(num, row, col) {
@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.div.classList.add(`t-${this.row}-${this.col}`);
             this.div.classList.add('tail');
             this.div.classList.add('num2');
+            this.div.classList.add('new');
             this.div.innerText = this.number;
             boxes.appendChild(this.div);
         }
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.col = ncol;
             this.div.classList.add(`t-${this.row}-${this.col}`);
             this.div.classList.remove(`joint`);
+            this.div.classList.remove('new');
             this.div.id = `r${this.row}-c${this.col}`;
             return true;
         }
@@ -48,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // console.log(this.row);
             // console.log(this.col);
             // this.div = document.querySelector(`#r${this.row}-c${this.col}`);
-            console.log(this.div);
+            // console.log(this.div);
             let el2 = document.querySelector(`#r${nrow}-c${ncol}`);
             this.div.classList.remove(`t-${this.row}-${this.col}`);
 
@@ -58,7 +60,8 @@ document.addEventListener("DOMContentLoaded", function () {
             this.row = nrow;
             this.col = ncol;
             this.div.classList.add(`t-${this.row}-${this.col}`);
-            this.div.classList.remove(`joint`);
+            this.div.classList.remove('joint');
+            this.div.classList.remove('new');
             this.div.id = `r${this.row}-c${this.col}`
             setTimeout(() => {
                 this.div.classList.add('joint');
@@ -74,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
     }
+
 
     // class Backup {
     //     constructor() {
@@ -103,6 +107,57 @@ document.addEventListener("DOMContentLoaded", function () {
     //     }
     // }
 
+    class Game {
+        constructor (base) {
+            this.base = bx;
+            this.end = true;
+        }
+
+        nextmove() {
+            var higher = {};
+            higher.number = 0;
+            let next;
+            this.end = true;
+            for(let r=0; r < 2; r++){
+                for(let c=0; c < 2; c++) {
+                    if(this.base[r][c].number === this.base[r+1][c].number){
+                        if(higher.number < this.base[r][c].number) {
+                            higher = this.base[r][c];
+                            next = this.base[r+1][c];
+                            this.end = false;
+                        }
+                    }
+                    if(this.base[r][c].number === this.base[r][c+1].number){
+                        if(higher.number < this.base[r][c].number) {
+                            higher = this.base[r][c];
+                            next = this.base[r][c+1];
+                            this.end = false;
+                        }
+                    }
+                }
+            }
+
+            return {
+                first: higher,
+                second: next
+            }
+        }
+
+        endgame(bs) {
+            let newbase = [];
+            this.base = bs;
+            this.base.forEach(e => e.forEach( e => newbase.push(e)));
+            if(newbase.indexOf('') === -1) {
+                this.nextmove();
+                if(this.end){
+                    console.log('koniec gry panocku');
+                }
+            }
+
+        }
+    }
+
+    let game = new Game(bx);
 
     const start = () => {
         let col, row;
@@ -128,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
             bx[row][col] = new Tail(2, row, col);
             bx[row][col].create();
             window.addEventListener('keydown',keypress);
-
+            game.endgame(bx);
         } else {
             newtail();
         }
