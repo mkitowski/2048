@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.div.id = `r${this.row}-c${this.col}`
             this.div.classList.add(`t-${this.row}-${this.col}`);
             this.div.classList.add('tail');
+            this.div.classList.add('num2');
             this.div.innerText = this.number;
             boxes.appendChild(this.div);
         }
@@ -50,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(this.div);
             let el2 = document.querySelector(`#r${nrow}-c${ncol}`);
             this.div.classList.remove(`t-${this.row}-${this.col}`);
+
             bx[nrow][ncol] = bx[this.row][this.col];
             bx[this.row][this.col] = '';
             this.number *= 2;
@@ -60,7 +62,11 @@ document.addEventListener("DOMContentLoaded", function () {
             this.div.id = `r${this.row}-c${this.col}`
             setTimeout(() => {
                 this.div.classList.add('joint');
-                this.div.innerText = bx[this.row][this.col].number;
+                this.div.classList.add(`num${this.number}`);
+                this.div.classList.remove(`num${this.number/2}`);
+                // this.div.innerText = bx[this.row][this.col].number;
+                this.div.innerText = this.number;
+
                 boxes.removeChild(el2);
             }, time-50);
 

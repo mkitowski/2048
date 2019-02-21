@@ -24,18 +24,18 @@ article {
   font-family: 'Cabin Sketch', cursive;
   width: 96px;
   height: 96px;
-  border: 2px solid $bd1;
+  border: 5px solid $bd1;
   z-index: 3;
   font-size: 1.7em;
-  border-radius: 5px;
+  border-radius: 0px;
   text-align: center;
   .tail {
-     width: 96px;
-      height: 96px;
-      border-radius: 5px;
+      width: 87px;
+      height: 87px;
+      border-radius: 0px;
       background: $col3;
-      margin: 0;
-      padding: 0;
+      margin: 0px 0 0 0px;
+      padding-top: 25px;
       position: absolute;
       z-index: 2;
   }
@@ -49,5 +49,29 @@ article {
   }
   }
 
+  $j: 2;
+
+  @for $i from 1 to 7 {
+    $r1: random(125);
+    $g1: random(125);
+    $b1: random(125);
+    .num#{$j} {
+      background: rgb($r1, $g1, $b1);
+      color: $col2;
+    }
+    $j: $j*4;
+  }
+  $j: 4;
+
+  @for $i from 1 to 7 {
+    $r1: random(125) + 125;
+    $g1: random(125) + 125;
+    $b1: random(125) + 125;
+    .num#{$j} {
+      background: rgb($r1, $g1, $b1);
+      color: $bd1;
+    }
+    $j: $j*4;
+  }
 
 }
