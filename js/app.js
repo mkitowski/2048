@@ -62,7 +62,9 @@ document.addEventListener("DOMContentLoaded", function () {
             this.div.classList.add(`t-${this.row}-${this.col}`);
             this.div.classList.remove('joint');
             this.div.classList.remove('new');
-            this.div.id = `r${this.row}-c${this.col}`
+            this.div.id = `r${this.row}-c${this.col}`;
+            boxes.removeChild(el2);
+
             setTimeout(() => {
                 this.div.classList.add('joint');
                 this.div.classList.add(`num${this.number}`);
@@ -70,8 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // this.div.innerText = bx[this.row][this.col].number;
                 this.div.innerText = this.number;
 
-                boxes.removeChild(el2);
-            }, time-50);
+            }, time);
 
             return true;
         }

@@ -76,24 +76,22 @@ header {
           font-size: 0;
           border-radius: 3px;
           &:hover {
-            animation: mouseon 0.3s ease-in-out forwards;
+            -webkit-animation: jello-horizontal 1.5s ease-in-out alternate both;
+            animation: jello-horizontal 1.5s ease-in-out alternate both;
             cursor: pointer;
           }
-          &:not(:hover) {
-            animation: mouseout 0.6s ease-in-out;
-          }
+
           @media (min-width: $mobilek) {
             display: block;
             padding: 0 1rem;
             font-size: 1.2rem;
             margin-right: .5rem;
             &:hover {
-              animation: mouseon 0.3s ease-in-out forwards;
+              -webkit-animation: jello-horizontal 1.5s ease-in-out alternate both;
+              animation: jello-horizontal 1.5s ease-in-out alternate both;
               cursor: pointer;
             }
-            &:not(:hover) {
-              animation: mouseout 0.6s ease-in-out;
-            }
+
           }
         }
       }
@@ -170,10 +168,11 @@ header {
           border-radius: 3px;
           padding: 0 1rem;
           font-size: 0;
-          animation: mouseout 0.6s ease-in-out;
+
           margin-bottom: .5rem;
           &:hover {
-            animation: mouseon 0.3s ease-in-out forwards;
+            -webkit-animation: jello-horizontal 1.5s ease-in-out alternate both;
+            animation: jello-horizontal 1.5s ease-in-out alternate both;
           }
 
         }
