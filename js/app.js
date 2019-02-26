@@ -64,13 +64,13 @@ document.addEventListener("DOMContentLoaded", function () {
             this.div.classList.remove('new');
             this.div.id = `r${this.row}-c${this.col}`;
             boxes.removeChild(el2);
-
             setTimeout(() => {
                 this.div.classList.add('joint');
                 this.div.classList.add(`num${this.number}`);
                 this.div.classList.remove(`num${this.number/2}`);
                 // this.div.innerText = bx[this.row][this.col].number;
                 this.div.innerText = this.number;
+                game.addscore(this.number);
 
             }, time);
 
@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
     class Game {
         constructor (base) {
             this.base = bx;
+            this.score = document.querySelector('.score');
             this.end = true;
         }
 
@@ -156,6 +157,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
         }
+
+        addscore(num) {
+            this.score.innerText = parseInt(this.score.innerText) + num;
+        }
     }
 
     let game = new Game(bx);
@@ -200,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if(el1 && el1.number===el2.number){
                 moved = el1.join(2,i);
-                if(el2.number === el0.number){
+                if(el1.number === el0.number){
                     el0.relocate(1,i);
                 }
             }
@@ -244,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (el1 && el1.number === el0.number) {
 
                 moved = el1.join(0, i);
-                if(el2.number === el0.number){
+                if(el1.number === el0.number){
                     el2.relocate(1,i)}
             }
             else if (el1 && el0 === '') {
@@ -283,7 +288,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if(el1 && el1.number===el2.number){
 
                 moved = el1.join(i,2);
-                if(el2.number === el0.number){
+                if(el1.number === el0.number){
                     el0.relocate(i,1)}
 
             }
@@ -321,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (el1 && el1.number === el0.number) {
 
                 moved = el1.join(i, 0);
-                if(el2.number === el0.number){
+                if(el1.number === el0.number){
                     el2.relocate(i,1)}
             }
             else if (el1 && el0 === '') {
