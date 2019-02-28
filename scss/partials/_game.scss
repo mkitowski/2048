@@ -18,6 +18,10 @@ article {
   flex-wrap: wrap;
   border: 5px solid $bd1;
   border-radius: 15px;
+
+  .koniec {
+    contain: 'koniec gry Panocku';
+  }
 }
 
 .box {

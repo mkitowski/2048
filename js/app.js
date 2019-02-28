@@ -161,6 +161,10 @@ document.addEventListener("DOMContentLoaded", function () {
         addscore(num) {
             this.score.innerText = parseInt(this.score.innerText) + num;
         }
+
+        displayMess() {
+
+        }
     }
 
     let game = new Game(bx);
