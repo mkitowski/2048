@@ -1,5 +1,9 @@
 
+import "./../scss/main.scss";
+
+
 document.addEventListener("DOMContentLoaded", function () {
+
 
     let boxes = document.querySelector('.b1_1');
     let button = document.querySelector('#start');
